@@ -134,7 +134,6 @@
     <ClInclude Include="Patient.h" />
     <ClInclude Include="priQueue.h" />
     <ClInclude Include="PriQueueCancel.h" />
-    <ClInclude Include="PriQueueReturn.h" />
     <ClInclude Include="QueueCancel.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
@@ -147,7 +146,6 @@
     <ClCompile Include="Patient.cpp" />
     <ClCompile Include="priQueue.cpp" />
     <ClCompile Include="PriQueueCancel.cpp" />
-    <ClCompile Include="PriQueueReturn.cpp" />
     <ClCompile Include="QueueCancel.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>

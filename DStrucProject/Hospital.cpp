@@ -1,9 +1,8 @@
 #include "Hospital.h"
 #include <iostream>
 using namespace std;
-Hospital::Hospital(int hid) {
-	distance = 0;
-	HID = hid;
+Hospital::Hospital() {
+	this->HID++;
 }
 
 void Hospital::setPatients(Patient* p)
@@ -33,4 +32,29 @@ void Hospital::setCars(Car* c)
 void Hospital::assigncar(Patient* P, Car* C)
 {
 	C->setAP(P);
+}
+
+QueueCancel Hospital::getNp()
+{
+	return NP;
+}
+
+LinkedQueue<Patient*> Hospital::getSp()
+{
+	return SP;
+}
+
+priQueue<Patient*> Hospital::getEp()
+{
+	return EP;
+}
+
+LinkedQueue<Car*> Hospital::getSc()
+{
+	return this->SC;
+}
+
+LinkedQueue<Car*> Hospital::getNc()
+{
+	return this->NC;
 }

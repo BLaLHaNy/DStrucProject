@@ -3,6 +3,7 @@
 #include "priQueue.h"
 #include "Patient.h"
 #include "QueueCancel.h"
+#include <vector>
 
 #include <iostream>
 
@@ -20,21 +21,30 @@ private:
 	LinkedQueue<Patient*> DonePatients;
 	priQueue<Car*> OutCar;
 	priQueue<Car*> BackCar;
+	string fname;
 	int NoHp;
+	int SpeedScar, SpeedNcar;
 	int** distance;
-	Hospital** Hospitals = new Hospital * [NoHp];
+	int** arrCars;
+	Hospital* Hospitals;
 	int timestep;
+	int NoReq,NoCancReq;
+	vector<string> Requests,CancellationReq;
+	
 
 
 public:
 
-	Organizer(const string& fname);
-	void store(const string& fname);//not done yet
+	Organizer(const string& fnames);
+	void Load();//not done yet
 	LinkedQueue<Patient*> getdone();
 	LinkedQueue<Patient*> getcanceeled();
 	LinkedQueue<Patient*> getallpatients();
-	Hospital** gethospitallist();
+	Hospital* gethospitallist();
 	~Organizer();
+	void Simulate();
+
+	
 
 };
 

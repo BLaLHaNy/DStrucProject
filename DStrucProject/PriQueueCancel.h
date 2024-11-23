@@ -1,11 +1,15 @@
 #pragma once
 #include "priQueue.h"
-template <typename T>
-class PriQueueCancel : public priQueue <T>
+#include "Car.h"
+#include <iostream>
+
+using namespace std;
+
+class PriQueueCancel : public priQueue <Car*>
 {
 
 public:
-	void Cancel();
+	Car* Cancel();
 
 
 
