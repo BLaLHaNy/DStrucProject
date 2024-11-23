@@ -7,9 +7,8 @@ class QueueCancel: public LinkedQueue<T>
 {
 
 public:
-	void Cancel() {
-
-	}
+	void Cancel();
 
 };
+
 

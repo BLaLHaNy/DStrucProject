@@ -11,7 +11,7 @@ private:
 	int HID;
 	int distance;
 	LinkedQueue<Patient*> WaitingP;
-	LinkedQueue<Patient*> NP;
+	QueueCancel<Patient*> NP;
 	LinkedQueue<Patient*> SP;
 	priQueue<Patient*> EP;
 	LinkedQueue<Car*> SC;
