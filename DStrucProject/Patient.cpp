@@ -1,11 +1,26 @@
 #include "Patient.h"
-Patient::Patient(int id, string t, int hid, int sev) :ID(id), ptType(t), HID(hid), severity(sev) {}
+Patient::Patient(string t, int RqTime, int id, int hid, int Hdist, int sev) :ptType(t),ReqTime(RqTime),ID(id), HID(hid),Hdis(Hdist),severity(sev) {}
 int Patient::getsev() const
 {
 	return severity;
 }
 
+void Patient::AssignHospital()
+{
+
+}
+
 string Patient::gettype() const
 {
 	return ptType;
+}
+
+int Patient::getReqTime()
+{
+	return ReqTime;
+}
+
+int Patient::getHID()
+{
+	return this->HID;
 }

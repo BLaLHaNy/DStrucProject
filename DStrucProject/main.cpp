@@ -9,11 +9,12 @@
 #include "Patient.h"
 #include "Car.h"
 #include "UI.h"
+#include "Organizer.h"
 
 using namespace std;
 
 int main()
 {
-	UI x;
-	x.readFile();
+	Organizer x("Input.txt");
+	x.Load();
 }

@@ -110,12 +110,15 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
+	int count;
 public:
 	LinkedQueue();
 	bool isEmpty() const;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
+	int getCount();
+	void PrintQueue();
 	~LinkedQueue();
 
 	//copy constructor
@@ -134,6 +137,7 @@ LinkedQueue<T>::LinkedQueue()
 {
 	backPtr = nullptr;
 	frontPtr = nullptr;
+	count = 0;
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +154,7 @@ bool LinkedQueue<T>::isEmpty() const
 {
 	return (frontPtr == nullptr);
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -170,7 +175,8 @@ bool LinkedQueue<T>::enqueue(const T& newEntry)
 	else
 		backPtr->setNext(newNodePtr); // The queue was not empty
 
-	backPtr = newNodePtr; // New node is the last node now
+	backPtr = newNodePtr;
+	count++; // New node is the last node now
 	return true;
 } // end enqueue
 
@@ -222,6 +228,11 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 	return true;
 
 }
+template<typename T>
+inline int LinkedQueue<T>::getCount()
+{
+	return count;
+}
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 Function: destructor
@@ -256,6 +267,17 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 	}
 }
 
+template <typename T>
+void PrintQueue(LinkedQueue<T> Q) //Pass by value
+{
+	//For this function to work properly, the LikedQueue class MUST
+	//have  a copy constructor (pass by value)
+	T K;
+	cout << "\nQueue contents: ";
+	while (Q.dequeue(K))
+		cout << K << " ";
+	cout << endl;
+}
 #endif
 
 

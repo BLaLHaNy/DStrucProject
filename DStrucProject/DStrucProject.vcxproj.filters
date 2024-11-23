@@ -42,9 +42,6 @@
     <ClInclude Include="PriQueueCancel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PriQueueReturn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LinkedQueue.cpp">
@@ -75,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PriQueueCancel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PriQueueReturn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

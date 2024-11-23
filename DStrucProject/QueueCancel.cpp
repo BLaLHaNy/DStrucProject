@@ -1,5 +1,7 @@
 #include "QueueCancel.h"
-template<typename T>
-void QueueCancel<T>::Cancel()
+
+void QueueCancel::Cancel(id)
 {
+	/*head ->->id
+		delete node;*/
 }

@@ -8,18 +8,25 @@
 class Hospital
 {
 private:
-	int HID;
+	static int HID;
 	int distance;
 	LinkedQueue<Patient*> WaitingP;
-	QueueCancel<Patient*> NP;
+	QueueCancel NP;
 	LinkedQueue<Patient*> SP;
 	priQueue<Patient*> EP;
 	LinkedQueue<Car*> SC;
 	LinkedQueue<Car*> NC;
 public:
-	Hospital(int hid);
+	Hospital();
 	void setPatients(Patient* p);
 	void setCars(Car* p);
 	void assigncar(Patient* P, Car* c);//not done yet
+	QueueCancel getNp();
+	LinkedQueue<Patient*> getSp();
+	priQueue<Patient*> getEp();
+	LinkedQueue<Car*> getSc();
+	LinkedQueue<Car*> getNc();
+
 };
 
+int Hospital:: HID = 0;
