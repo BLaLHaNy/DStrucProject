@@ -2,6 +2,6 @@
 
 void QueueCancel::Cancel(id)
 {
-	head ->->id
-		delete node;
+	/*head ->->id
+		delete node;*/
 }
