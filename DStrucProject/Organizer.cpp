@@ -24,6 +24,7 @@ Organizer::Organizer(const string& fname)
 }
 void Organizer::store(const string& fname)
 {
+
 	return;
 
 }
