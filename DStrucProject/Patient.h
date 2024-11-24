@@ -21,7 +21,7 @@ public:
 	int getReqTime();
 	int getHID();
 	int getID();
-
+	
 
 };
 

@@ -40,10 +40,8 @@ Single Node Case:
 
 #ifndef LINKED_QUEUE_
 #define LINKED_QUEUE_
-#include <iostream>
+#include <iostream>;
 using namespace std;
-
-
 template < typename T>
 class Node
 {
@@ -113,7 +111,7 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
-	int count;
+	int count=0;
 public:
 	LinkedQueue();
 	bool isEmpty() const;
@@ -247,6 +245,7 @@ LinkedQueue<T>::~LinkedQueue()
 	//Free all nodes in the queue
 	T temp;
 	while (dequeue(temp));
+	
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 /*

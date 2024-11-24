@@ -20,6 +20,7 @@ public:
 	void dropoff();//not done yet
 	void setstatus(string s);
 	Patient* getAP();
+	~Car();
 	/*void setspeed(Car*c);*/
 };
 

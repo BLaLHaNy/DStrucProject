@@ -1,8 +1,8 @@
 #include "Hospital.h"
 #include <iostream>
 using namespace std;
-Hospital::Hospital() {
-	id = nextID++;
+Hospital::Hospital():distance(0) {
+	HID = nextID++;
 }
 
 void Hospital::setPatients(Patient* p)
@@ -39,52 +39,59 @@ void Hospital::assigncar(Patient* P, Car* C)
 	C->setAP(P);
 }
 
-QueueCancel Hospital::getNp()
+QueueCancel* Hospital::getNp()
 {
-	return NP;
+	return &NP;
 }
 
-LinkedQueue<Patient*> Hospital::getSp()
+LinkedQueue<Patient*>* Hospital::getSp()
 {
-	return SP;
+	return &SP;
 }
 
-priQueue<Patient*> Hospital::getEp()
+priQueue<Patient*>* Hospital::getEp()
 {
-	return EP;
+	return &EP;
 }
 
-LinkedQueue<Car*> Hospital::getSc()
+LinkedQueue<Car*>* Hospital::getSc()
 {
-	return this->SC;
+	return &SC;
 }
 
-LinkedQueue<Car*> Hospital::getNc()
+LinkedQueue<Car*>* Hospital::getNc()
 {
-	return this->NC;
+	return &NC;
 }
-int Hospital::getid()
+
+int Hospital::getHID()
 {
-	return id;
+	return HID;
 }
-int Hospital::getcNc()
+int Hospital::getcEp()
 {
-	return cNc;
-}
-int Hospital::getcSc()
-{
-	return cSc;
+	
+	return cEp;
 }
 int Hospital::getcNp()
 {
+
 	return cNp;
 }
 int Hospital::getcSp()
 {
+
 	return cSp;
 }
-int Hospital::getcEp()
+int Hospital::getcSc()
 {
-	return cEp;
+
+	return cSc;
 }
+int Hospital::getcNc()
+{
+
+	return cNc;
+}
+
  int Hospital:: nextID = 1; // Static variable to hold the next ID

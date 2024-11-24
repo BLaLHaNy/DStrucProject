@@ -31,3 +31,9 @@ Patient* Car::getAP()
 {
 	return AssignedPatient;
 }
+
+Car::~Car()
+{
+	delete AssignedPatient;
+	AssignedPatient = nullptr;
+}
