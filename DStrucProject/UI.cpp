@@ -16,48 +16,88 @@ using namespace std;
 
 void UI::ProgramInterface()
 {
+	int mode;
 	cout << "Choose Interface Mode (1==>Interactive Mode , 2==>Silent Mode): ";
-	if (InterfaceMode == 1)
+	cin >> mode;
+	if (mode == 1)
 	{
 		Organizer o("Input.txt");
+		o.Load();
 		Hospital* h=o.gethospitallist();
-		Patient* p;
+		QueueCancel* temp1 = h[2].getNp();
+		
+	
+		//Patient* tempPatient;
+		//int lkjl;
+		//temp1->dequeue(tempPatient);
+		//cout << "nnnnnnnnnn"<<tempPatient->getID() << " nnnnnnnnnnnnnnnnnnnnn ";
+		
+
 		for (int i = 0; i < o.getNoHp(); i++)
 		{
-			cout << "Current Timestep: " << o.getTimestep()<<endl;
+			
 			cout << "========== Hospital #"<<h[i].getHID()<< " data ==========" << endl;
-			cout << h[i].getEp().getcount() << " EP requests: ";
-			for (int i = 0; i < h[i].getEp().getcount(); i++)
+			
+			
+
+			//cout << h[i].getEp().getcount() << endl;
+
+			//Emergency Patient
+
+			cout << h[i].getcEp() << " EP requests: ";
+			priQueue<Patient*>* temp = h[i].getEp();
+			
+			for (int j = 0; j < h[i].getcEp(); j++)
 			{
-				priQueue<Patient*> temp = h[i].getEp();
+				
 				Patient* tempPatient;
 				int pri;
-				temp.dequeue(tempPatient,pri);
-				cout << tempPatient->getID() << ", ";
+				temp->dequeue(tempPatient,pri);
+				cout << tempPatient->getID() << "  ";
+				
+				
 			}
 			cout << endl;
-			cout << h[i].getSp().getCount() << " SP requests: ";
-			for (int i = 0; i < h[i].getSp().getCount(); i++)
+
+			//Special Patient
+
+			cout << h[i].getcSp() << " SP requests: ";
+			LinkedQueue<Patient*>* temp1 = h[i].getSp();
+			
+			for (int k = 0; k < h[i].getcSp(); k++)
 			{
 				Patient* tempPatient;
-				temp.dequeue(tempPatient);
-				cout << tempPatient->getID() << ", ";
+				temp1->dequeue(tempPatient);
+				cout << tempPatient->getID() << "  ";
+				
+			
 			}
 			cout << endl;
-			cout << h[i].getNp().getCount() << " SP requests: ";
-			for (int i = 0; i < h[i].getNp().getCount(); i++)
+
+			//Normal Patient
+
+			cout << h[i].getcNp() << " NP requests: ";
+			QueueCancel* temp2 = h[i].getNp();
+			for (int l = 0; l < h[i].getcNp(); l++)
 			{
-				QueueCancel temp = h[i].getNp();
+				
 				Patient* tempPatient;
-				temp.dequeue(tempPatient);
-				cout << tempPatient->getID() << ", ";
+				temp2->dequeue(tempPatient);
+				cout << tempPatient->getID() << "  ";
+				
+				
 			}
 			cout << endl;
-			cout << "Free cars: " << h[i].getSc().getCount() << " SCars, " << h[i].getNc().getCount() << " NCars" << endl;
+
+			//SCars & NCars
+
+			cout << "Free cars: " << h[i].getcSc() << " SCars, " << h[i].getcNc() << " NCars" << endl;
 			cout << "========== Hospital #" << h[i].getHID() << " data end ==========" << endl;
 			cout << "------------------------------------------------------" << endl;
 		}
-
+		delete[] h;
+		h = nullptr;
+		
 
 	}
 	else
@@ -65,4 +105,5 @@ void UI::ProgramInterface()
 		cout << "Silent Mode, Simulation Starts..."<<endl;
 		cout << "Simulation ends, Output file created"<<endl;
 	}
+	
 }

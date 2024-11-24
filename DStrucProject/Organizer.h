@@ -25,11 +25,12 @@ private:
 	int NoHp;
 	int SpeedScar, SpeedNcar;
 	int** distance;
-	int** arrCars;
+	/*int** arrCars;*/
 	Hospital* Hospitals;
 	int timestep;
 	int NoReq,NoCancReq;
-	vector<string> Requests,CancellationReq;
+	/*vector<string> Requests,CancellationReq;*/
+	
 	
 
 
@@ -45,6 +46,7 @@ public:
 	void Simulate();
 	int getTimestep();
 	int getNoHp();
+	
 
 };
 

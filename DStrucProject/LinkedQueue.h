@@ -111,7 +111,7 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
-	int count;
+	int count=0;
 public:
 	LinkedQueue();
 	bool isEmpty() const;
@@ -245,6 +245,7 @@ LinkedQueue<T>::~LinkedQueue()
 	//Free all nodes in the queue
 	T temp;
 	while (dequeue(temp));
+	
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 /*

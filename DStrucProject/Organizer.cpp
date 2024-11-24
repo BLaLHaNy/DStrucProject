@@ -32,6 +32,13 @@ Organizer::Organizer(const string& fnames)
 {
     this->fname = fnames;
 	timestep = 1;
+    Hospitals = nullptr;
+    NoCancReq = 0;
+    NoHp = 0;
+    NoReq = 0;
+    distance = nullptr;
+    SpeedNcar = 0;
+    SpeedScar = 0;
 	
 }
 
@@ -51,12 +58,12 @@ void Organizer::Load()
         Finput.close();
         return;
     }
-
+   
     Hospitals = new Hospital[NoHp];
     Finput >> SpeedScar;
     Finput >> SpeedNcar;
 
-    cout << NoHp << endl << SpeedScar << endl << SpeedNcar << endl;
+ /*   cout << NoHp << endl << SpeedScar << endl << SpeedNcar << endl;*/
 
      distance = new int* [NoHp];
     for (int i = 0; i < NoHp; i++) {
@@ -69,14 +76,14 @@ void Organizer::Load()
             Finput >> distance[i][j];
         }
     }
-    for (int i = 0; i < NoHp; i++)
+ /*   for (int i = 0; i < NoHp; i++)
     {
         for (int j = 0; j < NoHp; j++)
         {
             cout << distance[i][j] << " ";
         }
         cout << endl;
-    }
+    }*/
 
 
     int sc, nc;
@@ -86,18 +93,17 @@ void Organizer::Load()
         for (int j = 0; j < sc; j++)
         {
             Car* Sc = new Car("SC",SpeedScar);
-            Hospitals[j].setCars(Sc);
+            Hospitals[i].setCars(Sc);
         }
-        for (int j = 0; j < nc; j++)
+        for (int k = 0; k < nc; k++)
         {
             Car* Nc = new Car("NC",SpeedNcar);
-            Hospitals[j].setCars(Nc);
+            Hospitals[i].setCars(Nc);
         }
     }
 
    
     Finput >> NoReq;
-    cout << NoReq << endl;
     int requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity;
     string requestType;
 
@@ -112,8 +118,8 @@ void Organizer::Load()
             Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             Patient* q = &P;
             AllPatients.enqueue(q);
-            Hospitals->setPatients(q);
-               
+            Hospitals[requestHospitalID-1].setPatients(q);
+            //cout<< requestTimes<<" " << requestPatientID << " " << requestHospitalID << " " << requestDistances << " " << requestSeverity<<endl;
         }
         else
         {
@@ -121,10 +127,11 @@ void Organizer::Load()
             Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
             Patient* q = &P;
             AllPatients.enqueue(q);
-            Hospitals->setPatients(q);
+            Hospitals[requestHospitalID-1].setPatients(q);
 
         }
     }
+    
     Finput >> NoCancReq;
 
     int CancellationTime;
@@ -141,13 +148,7 @@ void Organizer::Load()
         Patient* patient;
         AllPatients.dequeue(patient);
         cout << patient->gettype() << endl;
-
     }
-    
-   
-
-
-
     Finput.close();
 }
 LinkedQueue<Patient*> Organizer::getdone()
@@ -171,7 +172,10 @@ Organizer::~Organizer() {
 	{
 		delete[] distance[i];
 	}
-	delete distance;
+	delete[] distance;
+    distance = nullptr;
+    delete[] Hospitals;
+    Hospitals = nullptr;
 }
 
 void Organizer::Simulate()
@@ -199,47 +203,47 @@ void Organizer::Simulate()
         int randomInRange = lowerBound + (rand() % (upperBound - lowerBound + 1));
         for (int i = 0; i < NoHp; i++)
         {
-            if (10 <= randomInRange < 20)
+            if (10 <= randomInRange&& randomInRange < 20)
             {
                 Patient* P;
-                Hospitals[i].getSp().dequeue(P);
+                Hospitals[i].getSp()->dequeue(P);
                 DonePatients.enqueue(P);
             }
-            else if (20 <= randomInRange < 25)
+            else if (20 <= randomInRange&& randomInRange < 25)
             {
                 Patient* P;
                 int n;
-                Hospitals[i].getEp().dequeue(P,n);
+                Hospitals[i].getEp()->dequeue(P,n);
                 DonePatients.enqueue(P);
             }
-            else if (30 <= randomInRange < 40)
+            else if (30 <= randomInRange&& randomInRange < 40)
             {
                 Patient* P;
-                Hospitals[i].getNp().dequeue(P);
+                Hospitals[i].getNp()->dequeue(P);
                 DonePatients.enqueue(P);
             }
-            else if (40 <= randomInRange < 45)
+            else if (40 <= randomInRange && randomInRange < 45)
             {
                 Car* C;
                 int n=0;
-                Hospitals[i].getSc().dequeue(C);
+                Hospitals[i].getSc()->dequeue(C);
                 OutCar.enqueue(C,n);
             }
-            else if (70 <= randomInRange < 75)
+            else if (70 <= randomInRange && randomInRange < 75)
             {
                 Car *P;
                 int n=0;
-                Hospitals[i].getNc().dequeue(P);
+                Hospitals[i].getNc()->dequeue(P);
                 OutCar.enqueue(P,n);
             }
-            else if (80 <= randomInRange < 90)
+            else if (80 <= randomInRange&& randomInRange < 90)
             {
                 Car* P;
                 int n=0;
                 OutCar.dequeue(P,n);
                 BackCar.enqueue(P,n);
             }
-            else if (91 <= randomInRange < 95)
+            else if (91 <= randomInRange&& randomInRange < 95)
             {
                 Car* P;
                 int n;
