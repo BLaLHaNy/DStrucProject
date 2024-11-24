@@ -39,7 +39,6 @@ void UI::ProgramInterface()
 			cout << h[i].getSp().getCount() << " SP requests: ";
 			for (int i = 0; i < h[i].getSp().getCount(); i++)
 			{
-				LinkedQueue<Patient*> temp = h[i].getSp();
 				Patient* tempPatient;
 				temp.dequeue(tempPatient);
 				cout << tempPatient->getID() << ", ";
