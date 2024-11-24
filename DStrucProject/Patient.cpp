@@ -24,3 +24,8 @@ int Patient::getHID()
 {
 	return this->HID;
 }
+
+int Patient::getID()
+{
+	return ID;
+}

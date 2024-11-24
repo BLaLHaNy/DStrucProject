@@ -15,6 +15,8 @@ using namespace std;
 
 int main()
 {
-	Organizer x("Input.txt");
-	x.Load();
+	UI z;
+	z.PtogramInterface();
+	/*Organizer x("Input.txt");*/
+	
 }

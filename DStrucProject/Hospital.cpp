@@ -9,12 +9,15 @@ void Hospital::setPatients(Patient* p)
 {
 	if (p->gettype() == "NP") {
 		NP.enqueue(p);
+		cNp++;
 	}
 	else if (p->gettype() == "SP") {
 		SP.enqueue(p);
+		cSp++;
 	}
 	else if (p->gettype() == "EP") {
 		EP.enqueue(p, p->getsev());
+		cEp++;
 	}
 }
 
@@ -22,9 +25,11 @@ void Hospital::setCars(Car* c)
 {
 	if (c->gettype() == "NC") {
 		NC.enqueue(c);
+		cNc++;
 	}
 	else if (c->gettype() == "SC") {
 		SC.enqueue(c);
+		cSc++;
 	}
 
 }
@@ -58,4 +63,28 @@ LinkedQueue<Car*> Hospital::getNc()
 {
 	return this->NC;
 }
- int Hospital:: nextID = 0; // Static variable to hold the next ID
+int Hospital::getid()
+{
+	return id;
+}
+int Hospital::getcNc()
+{
+	return cNc;
+}
+int Hospital::getcSc()
+{
+	return cSc;
+}
+int Hospital::getcNp()
+{
+	return cNp;
+}
+int Hospital::getcSp()
+{
+	return cSp;
+}
+int Hospital::getcEp()
+{
+	return cEp;
+}
+ int Hospital:: nextID = 1; // Static variable to hold the next ID

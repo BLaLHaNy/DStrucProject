@@ -43,10 +43,11 @@ public:
 	Hospital* gethospitallist();
 	~Organizer();
 	void Simulate();
-
-	
+	int gettimestep();
+	int getnohospital();
 
 };
+
 
 
 

@@ -16,6 +16,7 @@ private:
 	priQueue<Patient*> EP;
 	LinkedQueue<Car*> SC;
 	LinkedQueue<Car*> NC;
+	int cNc = 0, cSc = 0, cNp = 0, cSp = 0, cEp = 0;
 public:
 	static int nextID; // Static variable to hold the next ID
 
@@ -28,6 +29,13 @@ public:
 	priQueue<Patient*> getEp();
 	LinkedQueue<Car*> getSc();
 	LinkedQueue<Car*> getNc();
+	int getid();
+	int getcNc();
+	int getcSc();
+	int getcNp();
+	int getcSp();
+	int getcEp();
+
 
 };
 

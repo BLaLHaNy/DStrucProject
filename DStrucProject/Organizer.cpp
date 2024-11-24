@@ -65,7 +65,7 @@ void Organizer::Load()
     Finput >> SpeedScar;
     Finput >> SpeedNcar;
 
-    cout << NoHp << endl << SpeedScar << endl << SpeedNcar << endl;
+  /*  cout << NoHp << endl << SpeedScar << endl << SpeedNcar << endl;*/
 
      distance = new int* [NoHp];
     for (int i = 0; i < NoHp; i++) {
@@ -78,14 +78,14 @@ void Organizer::Load()
             Finput >> distance[i][j];
         }
     }
-    for (int i = 0; i < NoHp; i++)
+ /*   for (int i = 0; i < NoHp; i++)
     {
         for (int j = 0; j < NoHp; j++)
         {
             cout << distance[i][j] << " ";
         }
         cout << endl;
-    }
+    }*/
 
 
     int sc, nc;
@@ -95,18 +95,18 @@ void Organizer::Load()
         for (int j = 0; j < sc; j++)
         {
             Car* Sc = new Car("SC",SpeedScar);
-            Hospitals[j].setCars(Sc);
+            Hospitals[i].setCars(Sc);
         }
         for (int j = 0; j < nc; j++)
         {
             Car* Nc = new Car("NC",SpeedNcar);
-            Hospitals[j].setCars(Nc);
+            Hospitals[i].setCars(Nc);
         }
     }
 
    
     Finput >> NoReq;
-    cout << NoReq << endl;
+   /* cout << NoReq << endl;*/
     int requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity;
     string requestType;
 
@@ -121,7 +121,7 @@ void Organizer::Load()
             Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             Patient* q = &P;
             AllPatients.enqueue(q);
-            Hospitals->setPatients(q);
+            Hospitals[requestHospitalID-1].setPatients(q);
                
         }
         else
@@ -130,7 +130,7 @@ void Organizer::Load()
             Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
             Patient* q = &P;
             AllPatients.enqueue(q);
-            Hospitals->setPatients(q);
+            Hospitals[requestHospitalID-1].setPatients(q);
 
         }
     }
@@ -263,4 +263,13 @@ void Organizer::Simulate()
         }
     }
     
+}
+
+int Organizer::gettimestep()
+{
+    return timestep;
+}
+int Organizer::getnohospital()
+{
+    return NoHp;
 }

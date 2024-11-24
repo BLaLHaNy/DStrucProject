@@ -20,6 +20,7 @@ public:
 	string gettype() const;
 	int getReqTime();
 	int getHID();
+	int getID();
 
 
 };
