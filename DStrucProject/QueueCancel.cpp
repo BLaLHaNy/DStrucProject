@@ -1,6 +1,6 @@
 #include "QueueCancel.h"
 
-void QueueCancel::Cancel(id)
+void QueueCancel::Cancel()
 {
 	/*head ->->id
 		delete node;*/

@@ -26,6 +26,7 @@ public:
 	priQueue<Patient*> getEp();
 	LinkedQueue<Car*> getSc();
 	LinkedQueue<Car*> getNc();
+	int getHID();
 
 };
 

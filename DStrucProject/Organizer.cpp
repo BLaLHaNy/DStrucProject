@@ -1,6 +1,5 @@
 #include "Organizer.h"
 #include "UI.h"
-#include <vector>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -35,15 +34,7 @@ Organizer::Organizer(const string& fnames)
 	timestep = 1;
 	
 }
-void parseString(vector<string>& v, string s)
-{
-    string word;
-    istringstream iss(s);
-    while (iss >> word)
-    {
-        v.push_back(word);
-    }
-}
+
 void Organizer::Load()
 {
     fstream Finput;
@@ -230,21 +221,21 @@ void Organizer::Simulate()
             else if (40 <= randomInRange < 45)
             {
                 Car* C;
-                int n;
+                int n=0;
                 Hospitals[i].getSc().dequeue(C);
                 OutCar.enqueue(C,n);
             }
             else if (70 <= randomInRange < 75)
             {
                 Car *P;
-                int n;
+                int n=0;
                 Hospitals[i].getNc().dequeue(P);
                 OutCar.enqueue(P,n);
             }
             else if (80 <= randomInRange < 90)
             {
                 Car* P;
-                int n;
+                int n=0;
                 OutCar.dequeue(P,n);
                 BackCar.enqueue(P,n);
             }
@@ -264,3 +255,14 @@ void Organizer::Simulate()
     }
     
 }
+
+int Organizer::getTimestep()
+{
+    return timestep;
+}
+
+int Organizer::getNoHp()
+{
+    return NoHp;
+}
+

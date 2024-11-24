@@ -12,8 +12,11 @@ using namespace std;
 
 class UI
 {
+private:
+	int InterfaceMode;
 public:
-	
+	void ProgramInterface();
+
 };
 
 

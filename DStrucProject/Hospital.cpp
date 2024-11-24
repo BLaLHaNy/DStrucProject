@@ -58,3 +58,8 @@ LinkedQueue<Car*> Hospital::getNc()
 {
 	return this->NC;
 }
+
+int Hospital::getHID()
+{
+	return HID;
+}

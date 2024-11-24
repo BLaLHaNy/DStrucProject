@@ -43,8 +43,8 @@ public:
 	Hospital* gethospitallist();
 	~Organizer();
 	void Simulate();
-
-	
+	int getTimestep();
+	int getNoHp();
 
 };
 
