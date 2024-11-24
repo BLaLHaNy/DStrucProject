@@ -1,5 +1,4 @@
 #include "UI.h"
-
 #include <vector>
 #include <sstream>
 #include <iostream>
