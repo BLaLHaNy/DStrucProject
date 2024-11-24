@@ -28,10 +28,10 @@ private:
 	/*int** arrCars;*/
 	Hospital* Hospitals;
 	int timestep;
-	int NoReq,NoCancReq;
+	int NoReq, NoCancReq;
 	/*vector<string> Requests,CancellationReq;*/
-	
-	
+
+
 
 
 public:
@@ -46,8 +46,9 @@ public:
 	void Simulate();
 	int getTimestep();
 	int getNoHp();
-	
 
 
 
+
+};
 

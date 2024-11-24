@@ -270,13 +270,13 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 }
 
 template <typename T>
-void PrintQueue(LinkedQueue<T> Q) //Pass by value
+void LinkedQueue<T>::PrintQueue() //Pass by value
 {
 	//For this function to work properly, the LikedQueue class MUST
 	//have  a copy constructor (pass by value)
 	T K;
 	cout << "\nQueue contents: ";
-	while (Q.dequeue(K))
+	while (dequeue(K))
 		cout << K << " ";
 	cout << endl;
 }
