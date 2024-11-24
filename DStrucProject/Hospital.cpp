@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 Hospital::Hospital() {
-	this->HID++;
+	id = nextID++;
 }
 
 void Hospital::setPatients(Patient* p)
@@ -58,3 +58,4 @@ LinkedQueue<Car*> Hospital::getNc()
 {
 	return this->NC;
 }
+ int Hospital:: nextID = 0; // Static variable to hold the next ID

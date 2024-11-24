@@ -8,7 +8,7 @@
 class Hospital
 {
 private:
-	static int HID;
+	int id;
 	int distance;
 	LinkedQueue<Patient*> WaitingP;
 	QueueCancel NP;
@@ -17,6 +17,8 @@ private:
 	LinkedQueue<Car*> SC;
 	LinkedQueue<Car*> NC;
 public:
+	static int nextID; // Static variable to hold the next ID
+
 	Hospital();
 	void setPatients(Patient* p);
 	void setCars(Car* p);
@@ -29,4 +31,4 @@ public:
 
 };
 
-int Hospital:: HID = 0;
+

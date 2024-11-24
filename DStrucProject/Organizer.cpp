@@ -230,14 +230,14 @@ void Organizer::Simulate()
             else if (40 <= randomInRange < 45)
             {
                 Car* C;
-                int n;
+                int n=0;
                 Hospitals[i].getSc().dequeue(C);
                 OutCar.enqueue(C,n);
             }
             else if (70 <= randomInRange < 75)
             {
                 Car *P;
-                int n;
+                int n=0;
                 Hospitals[i].getNc().dequeue(P);
                 OutCar.enqueue(P,n);
             }
@@ -256,9 +256,9 @@ void Organizer::Simulate()
                 Hospitals[i].setCars(P);
             }
 
-            cout << timestep << endl;
-
-            //timestep++
+            
+            //programinterface
+            timestep++;
 
         }
     }
