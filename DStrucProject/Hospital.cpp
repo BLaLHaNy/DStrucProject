@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 Hospital::Hospital() {
-	this->HID++;
+	id = nextID++;
 }
 
 void Hospital::setPatients(Patient* p)
@@ -63,3 +63,4 @@ int Hospital::getHID()
 {
 	return HID;
 }
+ int Hospital:: nextID = 0; // Static variable to hold the next ID

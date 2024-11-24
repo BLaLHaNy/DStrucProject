@@ -247,9 +247,9 @@ void Organizer::Simulate()
                 Hospitals[i].setCars(P);
             }
 
-            cout << timestep << endl;
-
-            //timestep++
+            
+            //programinterface
+            timestep++;
 
         }
     }
