@@ -322,6 +322,11 @@ void Organizer::Simulate()
         }
     }
 }
+
+void Organizer::Addfinished(Patient* patient)
+{
+    DonePatients.enqueue(patient);
+}
     
 
 

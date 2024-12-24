@@ -9,6 +9,11 @@ class Patient
 private:
 	int ID;
 	int ReqTime;
+	int cancellationtime;
+	int fininshtime;
+	int Pickuptime;
+	int waitingtime;
+	int distance;
 	string ptType;
 	int HID;
 	int severity;
@@ -21,7 +26,15 @@ public:
 	int getReqTime();
 	int getHID();
 	int getID();
-	
+	void setPickUpTime(int time);
+	int getPickTime()const;
+	void setFinishTime(int);
+	int getDistance() const;
+	void setdis();
+	int getcancelTime()const;
+	void setcancelTime(int time);
+	int getWaitTime()const;
+	int getFinishTime()const;
 
 };
 
