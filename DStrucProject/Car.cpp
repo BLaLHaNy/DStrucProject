@@ -18,6 +18,10 @@ int Car::getspeed() const
 void Car::setAP(Patient* AP,int time)
 {
 	AssignedPatient = AP;
+	assignTime = time;
+	setstatus("AssignedCar");
+	int timePickedUp = assignTime + (AssignedPatient->getDistance() / speed);
+	AssignedPatient->setPickUpTime(timePickedUp);
 }
 void Car::dropoff()
 {
@@ -46,7 +50,7 @@ int Car::getReachTime()
 
 int Car::getAssignmentTime()
 {
-	return 0;
+	return assignTime;
 }
 
 Patient* Car::getAssignedPatient()

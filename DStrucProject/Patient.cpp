@@ -32,11 +32,13 @@ int Patient::getID()
 
 void Patient::setPickUpTime(int time)
 {
+	Pickuptime = time;
+	waitingtime = Pickuptime - ReqTime; 
 }
 
 int Patient::getPickTime() const
 {
-	return 0;
+	return Pickuptime;
 }
 
 void Patient::setFinishTime(int)
@@ -45,7 +47,7 @@ void Patient::setFinishTime(int)
 
 int Patient::getDistance() const
 {
-	return 0;
+	return distance;
 }
 
 void Patient::setdis()

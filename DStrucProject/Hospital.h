@@ -18,7 +18,7 @@ private:
 	priQueue<Patient*> EP;
 	LinkedQueue<Car*> SC;
 	LinkedQueue<Car*> NC;
-	int cSc =0, cNc=0,cNp=0,cSp=0,cEp=0;
+	int cSc =0, cNc=0,cNp=0,cSp=0,cEp=0; //cSc-> Count SC __ cNc-> Count NC __ cNp-> Count NP etc..
 	int WaitingTime = 0;
 	int carBusyTime = 0;
 

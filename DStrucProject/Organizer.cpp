@@ -323,3 +323,9 @@ priQueue<Car*> Organizer::getBackCars()
     return BackCar;
 }
 
+void Organizer::addOutCar(Car* c)
+{
+    OutCar.enqueue(c, c->getAP()->getPickTime());
+    numOutCars++;
+}
+
