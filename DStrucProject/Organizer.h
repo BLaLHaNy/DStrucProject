@@ -27,7 +27,7 @@ private:
 	int** distance;
 	/*int** arrCars;*/
 	Hospital* Hospitals;
-	int timestep;
+	int timestep,cOc,cBc;
 	int NoReq, NoCancReq;
 	/*vector<string> Requests,CancellationReq;*/
 
@@ -46,6 +46,8 @@ public:
 	void Simulate();
 	int getTimestep();
 	int getNoHp();
+	priQueue<Car*> getOutCars();
+	priQueue<Car*> getBackCars();
 
 
 

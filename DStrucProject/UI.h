@@ -20,7 +20,8 @@ class UI
 private:
 	int InterfaceMode;
 public:
-	void ProgramInterface();
+
+	void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc,int cBc);
 
 };
 

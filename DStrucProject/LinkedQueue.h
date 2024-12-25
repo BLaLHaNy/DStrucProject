@@ -107,7 +107,7 @@ Node<T>* Node<T>::getNext() const
 template <typename T>
 class LinkedQueue
 {
-private:
+protected:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;

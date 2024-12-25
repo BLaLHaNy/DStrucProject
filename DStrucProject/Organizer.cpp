@@ -10,6 +10,8 @@
 #include "Patient.h"
 #include "Car.h"
 #include <cstdlib>
+#include <ctime>
+#include <time.h>
 //Organizer::Organizer(int No, LinkedQueue<Patient*> AllP, LinkedQueue<Patient*> Cancellist, PriQueueReturn<Car*> OC, priQueue<Car*> BC, int** d) : NoHp(No), AllPatients(AllP), Cancellationlist(Cancellist), OutCar(OC), BackCar(BC) {
 //	distance = new int* [NoHp];
 //	for (int i = 0; i < NoHp; i++)
@@ -39,6 +41,8 @@ Organizer::Organizer(const string& fnames)
     distance = nullptr;
     SpeedNcar = 0;
     SpeedScar = 0;
+    cOc = 0;
+    cBc = 0;
 	
 }
 
@@ -115,8 +119,8 @@ void Organizer::Load()
         if (requestType == "EP")
         {
             Finput >> requestTimes >> requestPatientID >> requestHospitalID >> requestDistances >> requestSeverity;
-            Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
-            Patient* q = &P;
+            //Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
+            Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             AllPatients.enqueue(q);
             Hospitals[requestHospitalID-1].setPatients(q);
             //cout<< requestTimes<<" " << requestPatientID << " " << requestHospitalID << " " << requestDistances << " " << requestSeverity<<endl;
@@ -124,8 +128,8 @@ void Organizer::Load()
         else
         {
             Finput >> requestTimes >> requestPatientID >> requestHospitalID >> requestDistances;
-            Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
-            Patient* q = &P;
+            //Patient P
+            Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
             AllPatients.enqueue(q);
             Hospitals[requestHospitalID-1].setPatients(q);
 
@@ -143,12 +147,12 @@ void Organizer::Load()
         Cancellationlist.enqueue(q);
     }
 
-    while (!AllPatients.isEmpty())
+ /*   while (!AllPatients.isEmpty())
     {
         Patient* patient;
         AllPatients.dequeue(patient);
         cout << patient->gettype() << endl;
-    }
+    }*/
     Finput.close();
 }
 LinkedQueue<Patient*> Organizer::getdone()
@@ -180,145 +184,111 @@ Organizer::~Organizer() {
 
 void Organizer::Simulate()
 {
+    UI x;
     Load();
-    while (DonePatients.getCount() != NoReq)
+    
+    
+    int n = 0;
+    Patient* P;
+    Car* C;
+    x.ProgramInterface(Hospitals, timestep, NoHp, cOc, cBc);
+  
+    while(DonePatients.getCount()!= NoReq)
     {
+        
+        //for (int i = 0; i < NoReq; i++)
+        //{
+        //    Patient* P;
+        //    AllPatients.peek(P);
+        //    int HOSID = P->getHID();
+        //    if (this->timestep = P->getReqTime())
+        //    {
+        //        AllPatients.dequeue(P);
+        //        Hospitals[HOSID].setPatients(P);
 
-        for (int i = 0; i < NoReq; i++)
-        {
-            Patient* P;
-            AllPatients.peek(P);
-            int HOSID = P->getHID();
-            if (this->timestep = P->getReqTime())
-            {
-                AllPatients.dequeue(P);
-                Hospitals[HOSID].setPatients(P);
+        //    }
+        //    else
+        //        break;
+        //}
+        
+        
 
-            }
-            else
-                break;
-        }
-        int lowerBound = 1;
-        int upperBound = 100;
-        int randomInRange = lowerBound + (rand() % (upperBound - lowerBound + 1));
-        cout << "TimeStep: " << timestep << endl;;
+        /*srand(time(0));
         for (int i = 0; i < NoHp; i++)
         {
+            
+            int lowerBound = 1;
+            int upperBound = 100;
+            int randomInRange = lowerBound + (rand() % (upperBound - lowerBound + 1));
             if (10 <= randomInRange && randomInRange < 20)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from Sp and enqueue to donepatients.";
-                Patient* P;
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Sp and enqueue to donepatients." << endl;
+                
                 Hospitals[i].getSp()->dequeue(P);
                 DonePatients.enqueue(P);
+
+                Hospitals[i].getcSp()--;
+
             }
             else if (20 <= randomInRange && randomInRange < 25)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from Ep and enqueue to donepatients.";
-                Patient* P;
-                int n;
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Ep and enqueue to donepatients." << endl;
+                
+                
                 Hospitals[i].getEp()->dequeue(P, n);
                 DonePatients.enqueue(P);
             }
             else if (30 <= randomInRange && randomInRange < 40)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from Np and enqueue to donepatients.";
-                Patient* P;
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Np and enqueue to donepatients." << endl;
+                
                 Hospitals[i].getNp()->dequeue(P);
                 DonePatients.enqueue(P);
             }
             else if (40 <= randomInRange && randomInRange < 45)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from Sc and enqueue to OutCars.";
-                Car* C;
-                int n = 0;
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Sc and enqueue to OutCars." << endl;
+                
                 Hospitals[i].getSc()->dequeue(C);
                 OutCar.enqueue(C, n);
+                cOc++;
             }
             else if (70 <= randomInRange && randomInRange < 75)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from Nc and enqueue to OutCars.";
-                Car* P;
-                int n = 0;
-                Hospitals[i].getNc()->dequeue(P);
-                OutCar.enqueue(P, n);
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Nc and enqueue to OutCars." << endl;
+                
+                Hospitals[i].getNc()->dequeue(C);
+                OutCar.enqueue(C, n);
+                cOc++;
             }
             else if (80 <= randomInRange && randomInRange < 90)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from OutCars and enqueue to Backcars.";
-                Car* P;
-                int n = 0;
-                OutCar.dequeue(P, n);
-                BackCar.enqueue(P, n);
+                cout << "in hospital " << Hospitals[i].getHID() << " random number is: " << randomInRange << " so we dequeue from OutCars and enqueue to Backcars." << endl;
+                
+                OutCar.dequeue(C, n);
+                BackCar.enqueue(C, n);
+                cOc--;
+                cBc++;
             }
             else if (91 <= randomInRange && randomInRange < 95)
             {
-                cout << "random number is: " << randomInRange << " so we dequeue from BackCars and enqueue to FreeCars.";
-                Car* P;
-                int n;
-                BackCar.dequeue(P, n);
-                Hospitals[i].setCars(P);
+                cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from BackCars and enqueue to FreeCars."<<endl;
+                
+                BackCar.dequeue(C, n);
+                Hospitals[i].setCars(C);
+                cBc--;
             }
+           
+            
 
+            
+           
 
-            //programinterface
-            for (int j = 0; j < NoHp; j++) {
-                cout << "==========Hospital#" << j + 1 << "============" << endl;
-                cout << Hospitals[i].getcEp() << " EP requests: ";
-                priQueue<Patient*>* temp = Hospitals[i].getEp();
-
-                for (int j = 0; j < Hospitals[i].getcEp(); j++)
-                {
-
-                    Patient* tempPatient;
-                    int pri;
-                    temp->dequeue(tempPatient, pri);
-                    cout << tempPatient->getID() << "  ";
-
-
-                }
-                cout << endl;
-
-                //Special Patient
-
-                cout << Hospitals[i].getcSp() << " SP requests: ";
-                LinkedQueue<Patient*>* temp1 = Hospitals[i].getSp();
-
-                for (int k = 0; k < Hospitals[i].getcSp(); k++)
-                {
-                    Patient* tempPatient;
-                    temp1->dequeue(tempPatient);
-                    cout << tempPatient->getID() << "  ";
-
-
-                }
-                cout << endl;
-
-                //Normal Patient
-
-                cout << Hospitals[i].getcNp() << " NP requests: ";
-                QueueCancel* temp2 = Hospitals[i].getNp();
-                for (int l = 0; l < Hospitals[i].getcNp(); l++)
-                {
-
-                    Patient* tempPatient;
-                    temp2->dequeue(tempPatient);
-                    cout << tempPatient->getID() << "  ";
-
-
-                }
-                cout << endl;
-
-                //SCars & NCars
-
-                cout << "Free cars: " << Hospitals[i].getcSc() << " SCars, " << Hospitals[i].getcNc() << " NCars" << endl;
-                cout << "========== Hospital #" << Hospitals[i].getHID() << " data end ==========" << endl;
-                cout << "------------------------------------------------------" << endl;
-            }
-
-
-
+            
 
         }
+        x.ProgramInterface(Hospitals, timestep, NoHp, cOc, cBc);
+        timestep++;*/
     }
 }
     
@@ -332,5 +302,15 @@ int Organizer::getTimestep()
 int Organizer::getNoHp()
 {
     return NoHp;
+}
+
+priQueue<Car*> Organizer::getOutCars()
+{
+    return OutCar;
+}
+
+priQueue<Car*> Organizer::getBackCars()
+{
+    return BackCar;
 }
 

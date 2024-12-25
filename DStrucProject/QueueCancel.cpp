@@ -2,23 +2,30 @@
 #include"Patient.h"
 #include "LinkedQueue.h"
 
-void QueueCancel::Cancel(LinkedQueue<Patient*>& queue, const int targetItem)
-{
-	LinkedQueue<Patient*> tempQueue;
-	Patient* P;
-	bool found=false;
-	while (!queue.isEmpty())
-	{
-		queue.dequeue(P);	
-		if (P->getID() == targetItem && !found) {
-			found = true;
-		}
-		else {
-			tempQueue.enqueue(P);
-		}
-	}
-	while (!tempQueue.isEmpty()) {
-		tempQueue.dequeue(P);
-		queue.enqueue(P);
-	}
+void QueueCancel::Cancel(const int targetItem) {
+    Node<Patient*>* ptr = frontPtr;
+    Node<Patient*>* prev = nullptr; 
+
+  
+    if (ptr == nullptr) {
+        return;
+    }
+
+ 
+    if (ptr->getItem()->getID() == targetItem) {
+        frontPtr = ptr->getNext(); 
+        delete ptr;             
+        return;
+    }
+
+    
+    while (ptr != nullptr) {
+        if (ptr->getItem()->getID() == targetItem) {
+            prev->setNext(ptr->getNext());
+            delete ptr;                   
+            return;
+        }
+        prev = ptr; 
+        ptr = ptr->getNext(); 
+    }
 }

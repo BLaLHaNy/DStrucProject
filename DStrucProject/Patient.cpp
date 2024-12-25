@@ -22,7 +22,7 @@ int Patient::getReqTime()
 
 int Patient::getHID()
 {
-	return this->HID;
+	return HID;
 }
 
 int Patient::getID()
