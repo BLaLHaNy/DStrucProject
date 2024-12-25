@@ -61,6 +61,26 @@ LinkedQueue<Car*>* Hospital::getNc()
 	return &NC;
 }
 
+void Hospital::assignCartoEP(int currentTime)
+{
+}
+
+void Hospital::assignCartoSP(int currentTime)
+{
+}
+
+void Hospital::assignCartoNP(int currentTime)
+{
+}
+
+void Hospital::addfailedP(Patient* p, string& type)
+{
+}
+
+void Hospital::print()
+{
+}
+
 int Hospital::getHID()
 {
 	return HID;

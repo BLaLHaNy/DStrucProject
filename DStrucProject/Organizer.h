@@ -25,7 +25,6 @@ private:
 	string fname;
 	int NoHp;
 	int noNC;
-	int noNC;
 	int numOutCars, numBackCars;
 	int fprob = 0;
 	int DonePcount = 0;
@@ -42,6 +41,7 @@ private:
 
 public:
 	Hospital* Hospitals;
+
 	Organizer(const string& fnames);
 	void Load();//not done yet
 	LinkedQueue<Patient*> getdone();

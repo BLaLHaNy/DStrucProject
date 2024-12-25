@@ -17,7 +17,7 @@ int main()
 {
 	/*UI x;
 	x.ProgramInterface();*/
-	Organizer x("Input.txt");
+	/*Organizer x("Input.txt");
 	
-	x.Simulate();
+	x.Simulate();*/
 }

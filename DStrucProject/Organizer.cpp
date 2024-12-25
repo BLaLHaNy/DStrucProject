@@ -41,8 +41,8 @@ Organizer::Organizer(const string& fnames)
     distance = nullptr;
     SpeedNcar = 0;
     SpeedScar = 0;
-    cOc = 0;
-    cBc = 0;
+    numOutCars = 0;
+    numBackCars = 0;
 	
 }
 
@@ -96,12 +96,12 @@ void Organizer::Load()
         Finput >> sc >> nc;
         for (int j = 0; j < sc; j++)
         {
-            Car* Sc = new Car("SC",SpeedScar);
+            Car* Sc = new Car("SC",SpeedScar,Hospitals[i].getHID());
             Hospitals[i].setCars(Sc);
         }
         for (int k = 0; k < nc; k++)
         {
-            Car* Nc = new Car("NC",SpeedNcar);
+            Car* Nc = new Car("NC",SpeedNcar, Hospitals[i].getHID());
             Hospitals[i].setCars(Nc);
         }
     }
@@ -184,14 +184,14 @@ Organizer::~Organizer() {
 
 void Organizer::Simulate()
 {
-    UI x;
+    UI x(this);
     Load();
     
     
     int n = 0;
     Patient* P;
     Car* C;
-    x.ProgramInterface(Hospitals, timestep, NoHp, cOc, cBc);
+    x.ProgramInterface(Hospitals, timestep, NoHp, numOutCars, numBackCars);
   
     while(DonePatients.getCount()!= NoReq)
     {
@@ -295,6 +295,10 @@ void Organizer::Simulate()
 void Organizer::Addfinished(Patient* patient)
 {
     DonePatients.enqueue(patient);
+}
+
+void Organizer::cancelP()
+{
 }
     
 

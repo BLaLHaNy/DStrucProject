@@ -28,7 +28,7 @@ public:
 	Hospital(Organizer* o);
 	void setPatients(Patient* p);
 	void setCars(Car* p);
-	
+	Hospital() {}
 	QueueCancel* getNp();
 	LinkedQueue<Patient*>* getSp();
 	priQueue<Patient*>* getEp();

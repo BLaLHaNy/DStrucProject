@@ -24,6 +24,11 @@ void Car::dropoff()
 	setstatus("FreeCar");
 }
 
+int Car::cancelAssignedPatient()
+{
+	return 0;
+}
+
 void Car::setstatus(string s)
 {
 	status = s;
@@ -32,6 +37,34 @@ void Car::setstatus(string s)
 Patient* Car::getAP()
 {
 	return AssignedPatient;
+}
+
+int Car::getReachTime()
+{
+	return 0;
+}
+
+int Car::getAssignmentTime()
+{
+	return 0;
+}
+
+Patient* Car::getAssignedPatient()
+{
+	return nullptr;
+}
+
+bool Car::getfailed() const
+{
+	return false;
+}
+
+void Car::setfailed()
+{
+}
+
+void Car::setfailedpatient()
+{
 }
 
 Car::~Car()

@@ -16,16 +16,18 @@ using namespace std;
 
 
 
-class UI
-{
+class UI {
 private:
-	int InterfaceMode;
-	Organizer* organizer;
-	string ifname;
-	string ofname;
+    int InterfaceMode;
+    Organizer* organizer; // Ensure this is declared properly
+    std::string ifname;
+    std::string ofname;
+
 public:
-	void ProgramInterface();
-    UI(Organizer* org) : organizer(org) {};
+    // Constructor correctly initializes organizer
+    UI(Organizer* org) : organizer(org) {}
+
+    void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc, int cBc);
     bool chooseMode();
     void printStatus();
     void printFinalStatistics();
