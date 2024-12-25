@@ -67,6 +67,32 @@ void Hospital::assignCartoEP(int currentTime)
 
 void Hospital::assignCartoSP(int currentTime)
 {
+	Patient* p;
+	Car* c;
+	while (SP.peek(p))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (SC.dequeue(c))
+			{
+				SP.dequeue(p);
+				cSc--;
+				cSp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 void Hospital::assignCartoNP(int currentTime)
@@ -109,6 +135,10 @@ int Hospital::getcNc()
 {
 
 	return cNc;
+}
+
+void Hospital::assignSP(int currentTime)
+{
 }
 
  int Hospital:: nextID = 1; // Static variable to hold the next ID

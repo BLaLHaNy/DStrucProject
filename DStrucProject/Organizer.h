@@ -56,7 +56,7 @@ public:
 	int getNoHp();
 	priQueue<Car*> getOutCars();
 	priQueue<Car*> getBackCars();
-
+	void addOutCar(Car* c);
 
 
 
