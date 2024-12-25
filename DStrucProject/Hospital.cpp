@@ -1,7 +1,7 @@
 #include "Hospital.h"
 #include <iostream>
 using namespace std;
-Hospital::Hospital():distance(0) {
+Hospital::Hospital(Organizer* o):distance(0),organizer(o) {
 	HID = nextID++;
 }
 
@@ -34,10 +34,7 @@ void Hospital::setCars(Car* c)
 
 }
 
-void Hospital::assigncar(Patient* P, Car* C)
-{
-	C->setAP(P);
-}
+
 
 QueueCancel* Hospital::getNp()
 {

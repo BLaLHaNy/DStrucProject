@@ -11,16 +11,27 @@ private:
 	string type;
 	int speed;
 	string status = "FreeCar";
+	int assignTime ;
+	int HospitalID;
+	int arrivalTime;
+	/*bool failed = false;*/
 public:
-	Car(string t, int s);
+	Car(string t, int s, int HID);
 	string gettype() const;
 	void Pickup();//not done yet
 	int getspeed() const;
-	void setAP(Patient* AP);
+	void setAP(Patient* AP,int time);
 	void dropoff();//not done yet
+	int cancelAssignedPatient();
 	void setstatus(string s);
 	Patient* getAP();
+	int getReachTime();
+	int getAssignmentTime();
+	Patient* getAssignedPatient();
+	bool getfailed() const;
+	void setfailed();
+	void setfailedpatient();
 	~Car();
-	/*void setspeed(Car*c);*/
+	
 };
 

@@ -291,6 +291,11 @@ void Organizer::Simulate()
         timestep++;*/
     }
 }
+
+void Organizer::Addfinished(Patient* patient)
+{
+    DonePatients.enqueue(patient);
+}
     
 
 

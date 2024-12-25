@@ -1,5 +1,7 @@
 #include "Car.h"
-Car::Car(string t, int s) :type(t), speed(s) {}
+Car::Car(string t, int s,int HID) :type(t), speed(s), HospitalID(HID) {
+	
+}
 
 string Car::gettype() const {
 	return type;
@@ -13,7 +15,7 @@ int Car::getspeed() const
 {
 	return speed;
 }
-void Car::setAP(Patient* AP)
+void Car::setAP(Patient* AP,int time)
 {
 	AssignedPatient = AP;
 }
