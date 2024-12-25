@@ -34,7 +34,7 @@ private:
     int** distance;
     int timestep;
     int NoReq, NoCancReq;
-
+    int noHospitals;
 public:
     Hospital* Hospitals;
 
@@ -53,5 +53,6 @@ public:
     priQueue<Car*> getOutCars();
     priQueue<Car*> getBackCars();
     void addOutCar(Car* c);
+    void assignEPtoNewHospital(Patient* p, int severity);
 };
 

@@ -68,7 +68,7 @@ void Hospital::assignCartoEP(int currentTime)
 	Patient* p;
 	Car* c;
 	int s;	//severity
-	while (EP.peek(p, s))
+	while (EP.peek(p,s))
 	{
 		if (p->getReqTime() <= currentTime)
 		{

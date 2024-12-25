@@ -35,7 +35,7 @@ public:
 	void setcancelTime(int time);
 	int getWaitTime()const;
 	int getFinishTime()const;
-	int setclosestHospital(int hospital);
+	void setclosestHospital(int hospital);
 	int getclosestHospital()const;
 };
 
