@@ -35,7 +35,7 @@ private:
 	int timestep;
 	int NoReq, NoCancReq;
 	/*vector<string> Requests,CancellationReq;*/
-
+	int noHospitals;
 
 
 
@@ -57,7 +57,7 @@ public:
 	priQueue<Car*> getOutCars();
 	priQueue<Car*> getBackCars();
 	void addOutCar(Car* c);
-
+	void assignEPtoNewHospital(Patient* p,int severity);
 
 
 };

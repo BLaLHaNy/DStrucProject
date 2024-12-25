@@ -72,3 +72,13 @@ int Patient::getFinishTime() const
 {
 	return 0;
 }
+
+int Patient::setclosestHospital(int hospital)
+{
+	closestHospital = hospital;
+}
+
+int Patient::getclosestHospital() const
+{
+	return closestHospital;
+}

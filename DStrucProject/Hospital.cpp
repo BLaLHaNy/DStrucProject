@@ -63,6 +63,41 @@ LinkedQueue<Car*>* Hospital::getNc()
 
 void Hospital::assignCartoEP(int currentTime)
 {
+	Patient* p;
+	Car* c;
+	int s;	//severity
+	while (EP.peek(p, s))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c)) //First: Check Normal Cars
+			{
+				EP.dequeue(p,s);
+				cNc--;
+				cEp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c); 
+			}
+			else if (SC.dequeue(c)) //Second: Check Special Cars
+			{
+				EP.dequeue(p, s);
+				cSc--;
+				cEp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else  //Send To Another Hospital
+			{
+				EP.dequeue(p, s);
+				cEp--;
+				organizer->assignEPtoNewHospital(p, s);
+			}
+		}
+	}
 }
 
 void Hospital::assignCartoSP(int currentTime)
@@ -97,6 +132,32 @@ void Hospital::assignCartoSP(int currentTime)
 
 void Hospital::assignCartoNP(int currentTime)
 {
+	Patient* p;
+	Car* c;
+	while (NP.peek(p))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c))
+			{
+				NP.dequeue(p);
+				cNc--;
+				cNp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 void Hospital::addfailedP(Patient* p, string& type)

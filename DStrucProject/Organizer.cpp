@@ -329,3 +329,19 @@ void Organizer::addOutCar(Car* c)
     numOutCars++;
 }
 
+void Organizer::assignEPtoNewHospital(Patient* p, int severity)
+{
+    int H = p->getclosestHospital();
+    int newHos;
+    if (H != noHospitals)
+    {
+        newHos = H + 1;
+    }
+    else
+    {
+        newHos = 1;
+    }
+    p->setclosestHospital(newHos);
+    Hospitals[newHos - 1].setPatients(p);
+}
+
