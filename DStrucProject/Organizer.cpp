@@ -317,7 +317,6 @@ void Organizer::Simulate()
 
 
 
-            timestep++;
 
         }
     }
