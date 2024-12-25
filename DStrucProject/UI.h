@@ -20,13 +20,12 @@ class UI {
 private:
     int InterfaceMode;
     Organizer* organizer; // Ensure this is declared properly
-    std::string ifname;
-    std::string ofname;
+    string ifname;
+    string ofname;
 
 public:
     // Constructor correctly initializes organizer
     UI(Organizer* org) : organizer(org) {}
-
     void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc, int cBc);
     bool chooseMode();
     void printStatus();

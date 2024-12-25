@@ -26,6 +26,7 @@ public:
 	static int nextID; // Static variable to hold the next ID
 
 	Hospital(Organizer* o);
+	
 	void setPatients(Patient* p);
 	void setCars(Car* p);
 	Hospital() {}
