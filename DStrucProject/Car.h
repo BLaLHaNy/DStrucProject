@@ -14,14 +14,14 @@ private:
 	int assignTime ;
 	int HospitalID;
 	int arrivalTime;
-	/*bool failed = false;*/
+	bool failed = false;
 public:
 	Car(string t, int s, int HID);
 	string gettype() const;
 	void Pickup();//not done yet
 	int getspeed() const;
 	void setAP(Patient* AP,int time);
-	void dropoff();//not done yet
+	Patient* dropoff();//not done yet
 	int cancelAssignedPatient();
 	void setstatus(string s);
 	Patient* getAP();
@@ -31,6 +31,7 @@ public:
 	bool getfailed() const;
 	void setfailed();
 	void setfailedpatient();
+	int getHID();
 	~Car();
 	
 };

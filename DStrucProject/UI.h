@@ -19,13 +19,12 @@ using namespace std;
 class UI {
 private:
     int InterfaceMode;
-    Organizer* organizer; // Ensure this is declared properly
+    Organizer* organizer; // Use forward declaration
     string ifname;
     string ofname;
 
 public:
-    // Constructor correctly initializes organizer
-    UI(Organizer* org) : organizer(org) {}
+    UI(Organizer* org); // Constructor declaration
     void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc, int cBc);
     bool chooseMode();
     void printStatus();
