@@ -1,7 +1,6 @@
 #pragma once
 #include "LinkedQueue.h"
 #include "priQueue.h"
-#include "Patient.h"
 #include <iostream>
 using namespace std;
 class Patient
@@ -29,7 +28,7 @@ public:
 	int getID();
 	void setPickUpTime(int time);
 	int getPickTime()const;
-	void setFinishTime(int);
+	void setFinishTime(int time);
 	int getDistance() const;
 	void setdis();
 	int getcancelTime()const;

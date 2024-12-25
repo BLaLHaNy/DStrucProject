@@ -11,7 +11,13 @@
 #include "Car.h"
 #include "Organizer.h"
 
+
 using namespace std;
+
+UI::UI(Organizer* org)
+{
+	organizer = org;
+}
 
 void UI::ProgramInterface(Hospital* h,int timestep,int NoHp, int cOc, int cBc)
 {
@@ -131,5 +137,49 @@ void UI::ProgramInterface(Hospital* h,int timestep,int NoHp, int cOc, int cBc)
 		cout << "Simulation ends, Output file created"<<endl;
 	}
 	
+}
+
+bool UI::chooseMode()
+{
+	return false;
+}
+
+void UI::printStatus()
+{
+}
+
+void UI::printFinalStatistics()
+{
+}
+
+void UI::printQueue(const LinkedQueue<Patient*> queue)
+{
+}
+
+void UI::printPriorityQueue(const PriQueueCancel& queue)
+{
+}
+
+int UI::GetNumCars()
+{
+	return 0;
+}
+
+int UI::GetNumNCars()
+{
+	return 0;
+}
+
+int UI::GetNumSCars()
+{
+	return 0;
+}
+
+void UI::writeOutputFile()
+{
+}
+
+void UI::OutputFile()
+{
 }
 

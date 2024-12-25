@@ -1,6 +1,8 @@
 #include "Hospital.h"
 #include <iostream>
+#include "Organizer.h"
 using namespace std;
+
 Hospital::Hospital(Organizer* o):distance(0),organizer(o) {
 	HID = nextID++;
 }
@@ -100,35 +102,30 @@ void Hospital::assignCartoEP(int currentTime)
 	}
 }
 
-void Hospital::assignCartoSP(int currentTime)
-{
+void Hospital::assignCartoSP(int currentTime) {
 	Patient* p;
 	Car* c;
-	while (SP.peek(p))
-	{
-		if (p->getReqTime() <= currentTime)
-		{
-			if (SC.dequeue(c))
-			{
+	while (SP.peek(p)) {
+		if (p->getReqTime() <= currentTime) {
+			if (SC.dequeue(c)) {
 				SP.dequeue(p);
 				cSc--;
 				cSp--;
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c);
+				organizer->addOutCar(c); // This line requires Organizer's full definition
 			}
-			else
-			{
+			else {
 				return;
 			}
 		}
-		else
-		{
+		else {
 			break;
 		}
 	}
 }
+
 
 void Hospital::assignCartoNP(int currentTime)
 {
@@ -198,8 +195,6 @@ int Hospital::getcNc()
 	return cNc;
 }
 
-void Hospital::assignSP(int currentTime)
-{
-}
+
 
  int Hospital:: nextID = 1; // Static variable to hold the next ID

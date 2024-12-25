@@ -41,8 +41,9 @@ int Patient::getPickTime() const
 	return Pickuptime;
 }
 
-void Patient::setFinishTime(int)
+void Patient::setFinishTime(int time)
 {
+	fininshtime = time;
 }
 
 int Patient::getDistance() const
@@ -56,7 +57,7 @@ void Patient::setdis()
 
 int Patient::getcancelTime() const
 {
-	return 0;
+	return cancellationtime;
 }
 
 void Patient::setcancelTime(int time)

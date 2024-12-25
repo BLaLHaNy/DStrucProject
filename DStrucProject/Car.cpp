@@ -8,7 +8,10 @@ string Car::gettype() const {
 }
 void Car::Pickup()
 {
-	setstatus("BusyCar");
+	if (AssignedPatient) {
+		setstatus("BusyCar");
+		arrivalTime = AssignedPatient->getPickTime() + AssignedPatient->getDistance() / speed;
+	}
 
 }
 int Car::getspeed() const
@@ -23,14 +26,23 @@ void Car::setAP(Patient* AP,int time)
 	int timePickedUp = assignTime + (AssignedPatient->getDistance() / speed);
 	AssignedPatient->setPickUpTime(timePickedUp);
 }
-void Car::dropoff()
+Patient* Car::dropoff()
 {
 	setstatus("FreeCar");
+	int finishTime = AssignedPatient->getPickTime() + AssignedPatient->getDistance() / speed;
+	AssignedPatient->setFinishTime(finishTime);
+	Patient* AP = AssignedPatient;
+	AssignedPatient = nullptr;
+	assignTime = arrivalTime = NULL;
+	return AP;
+	
 }
 
 int Car::cancelAssignedPatient()
 {
-	return 0;
+	int canceltime = AssignedPatient->getcancelTime();
+	AssignedPatient = nullptr;
+	return canceltime;
 }
 
 void Car::setstatus(string s)
@@ -45,7 +57,7 @@ Patient* Car::getAP()
 
 int Car::getReachTime()
 {
-	return 0;
+	return arrivalTime;
 }
 
 int Car::getAssignmentTime()
@@ -55,20 +67,34 @@ int Car::getAssignmentTime()
 
 Patient* Car::getAssignedPatient()
 {
-	return nullptr;
+	return AssignedPatient;
 }
 
 bool Car::getfailed() const
 {
-	return false;
+	return failed;
 }
 
 void Car::setfailed()
 {
+	if (failed == false)
+	{
+		failed = true;
+	}
+	else if (failed == true)
+	{
+		failed = false;
+	}
 }
 
 void Car::setfailedpatient()
 {
+	AssignedPatient = nullptr;
+}
+
+int Car::getHID()
+{
+	return HospitalID;
 }
 
 Car::~Car()
