@@ -10,6 +10,8 @@ public:
 
 	bool Cancel(const int targetItem);
 	QueueCancel(const QueueCancel& cq);
+	QueueCancel(){}
+
 };
 
 
