@@ -2,20 +2,20 @@
 #include"Patient.h"
 #include "LinkedQueue.h"
 
-void QueueCancel::Cancel(const int targetItem) {
+bool QueueCancel::Cancel(const int targetItem) {
     Node<Patient*>* ptr = frontPtr;
     Node<Patient*>* prev = nullptr; 
 
   
     if (ptr == nullptr) {
-        return;
+        return false;
     }
 
  
     if (ptr->getItem()->getID() == targetItem) {
         frontPtr = ptr->getNext(); 
         delete ptr;             
-        return;
+        return true;
     }
 
     
@@ -23,7 +23,7 @@ void QueueCancel::Cancel(const int targetItem) {
         if (ptr->getItem()->getID() == targetItem) {
             prev->setNext(ptr->getNext());
             delete ptr;                   
-            return;
+            return true;
         }
         prev = ptr; 
         ptr = ptr->getNext(); 

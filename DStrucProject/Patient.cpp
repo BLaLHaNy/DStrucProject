@@ -5,9 +5,9 @@ int Patient::getsev() const
 	return severity;
 }
 
-void Patient::AssignHospital()
+void Patient::AssignHospital(int hid)
 {
-
+	if (ptType == "EP") { HID = hid; }
 }
 
 string Patient::gettype() const
@@ -51,8 +51,9 @@ int Patient::getDistance() const
 	return distance;
 }
 
-void Patient::setdis()
+void Patient::setdis(int dis)
 {
+	distance = dis;
 }
 
 int Patient::getcancelTime() const
@@ -62,14 +63,15 @@ int Patient::getcancelTime() const
 
 void Patient::setcancelTime(int time)
 {
+	cancellationtime = time;
 }
 
 int Patient::getWaitTime() const
 {
-	return 0;
+	return waitingtime;
 }
 
 int Patient::getFinishTime() const
 {
-	return 0;
+	return fininshtime;
 }

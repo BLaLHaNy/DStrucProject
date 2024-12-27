@@ -58,4 +58,5 @@ public:
     int getcNp();
     int getcSc();
     int getcNc();
+    bool cancelNP(int pid);
 };

@@ -20,7 +20,7 @@ private:
 public:
 	Patient(string t, int RqTime,int id, int hid,int Hdis, int sev = 1);
 	int getsev() const;
-	void AssignHospital();
+	void AssignHospital(int hid);
 	string gettype() const;
 	int getReqTime();
 	int getHID();
@@ -29,7 +29,7 @@ public:
 	int getPickTime()const;
 	void setFinishTime(int time);
 	int getDistance() const;
-	void setdis();
+	void setdis(int dis);
 	int getcancelTime()const;
 	void setcancelTime(int time);
 	int getWaitTime()const;

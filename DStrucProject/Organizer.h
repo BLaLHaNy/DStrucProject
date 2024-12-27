@@ -53,4 +53,5 @@ public:
     priQueue<Car*> getOutCars();
     priQueue<Car*> getBackCars();
     void addOutCar(Car* c);
+    void emergency_assign(Patient* p, int severity);
 };

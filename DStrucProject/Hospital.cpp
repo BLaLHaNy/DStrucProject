@@ -65,6 +65,46 @@ LinkedQueue<Car*>* Hospital::getNc()
 
 void Hospital::assignCartoEP(int currentTime)
 {
+	Patient* p;
+	int severity;
+	Car* c;
+
+
+	while (EP.peek(p, severity)) {
+		if (p->getReqTime() <= currentTime) {
+			if (NC.dequeue(c)) {
+				EP.dequeue(p, severity);
+				cNc--;
+				cEp--;
+				c->setAP(p, currentTime);
+
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				/*int reachtime = 2 * (p->getPickTime() - c->getAssignmentTime());*/
+				/*c->setreachtime(reachtime);*/
+				organizer->addOutCar(c);
+
+			}
+			else if (SC.dequeue(c)) {
+				EP.dequeue(p, severity);
+				cSc--;
+				cEp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				/*int reachtime = 2 * (p->getPickTime() - c->getAssignmentTime());
+				c->setreachtime(reachtime);*/
+				organizer->addOutCar(c);
+			}
+			else {
+				EP.dequeue(p, severity);
+				cEp--;
+				organizer->emergency_assign(p, severity);
+				//should allow sending to another hospital
+			}
+		}
+		else { return; }
+	}
 }
 
 void Hospital::assignCartoSP(int currentTime) {
@@ -94,14 +134,74 @@ void Hospital::assignCartoSP(int currentTime) {
 
 void Hospital::assignCartoNP(int currentTime)
 {
+	Patient* p;
+	Car* c;
+	while (NP.peek(p)) {
+		if (p->getReqTime() <= currentTime) {
+			if (NC.dequeue(c)) {
+				NP.dequeue(p);
+				cNc--;
+				cNp--;
+				c->setAP(p, currentTime);
+				
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else {
+				return; 
+			}
+		}
+		else {
+			break; 
+		}
+	}
 }
 
 void Hospital::addfailedP(Patient* p, string& type)
 {
+	LinkedQueue<Patient*> temp;
+	Patient* tempfpa;
+
+	if (type == "SP") {
+		while (SP.dequeue(tempfpa))
+		{
+			temp.enqueue(tempfpa);
+		}
+
+		SP.enqueue(p);
+
+		while (temp.dequeue(tempfpa))
+		{
+			SP.enqueue(tempfpa);
+		}
+	}
+	else if (type == "NP") {
+		while (NP.dequeue(tempfpa))
+		{
+			temp.enqueue(tempfpa);
+		}
+
+		NP.enqueue(p);
+
+		while (temp.dequeue(tempfpa))
+		{
+			NP.enqueue(tempfpa);
+		}
+	}
+	else if (type == "EP") {
+		EP.enqueue(p, p->getsev());
+	}
 }
 
 void Hospital::print()
 {
+	Patient* p; 
+	int severity;
+	while (EP.dequeue(p, severity)) {
+		cout << severity << endl;
+	}
+	cout << "Done";
 }
 
 int Hospital::getHID()
@@ -132,6 +232,18 @@ int Hospital::getcNc()
 {
 
 	return cNc;
+}
+
+bool Hospital::cancelNP(int pid)
+{
+	bool success = NP.Cancel(pid);
+	if (success)
+	{ 
+		return true; 
+	}
+	else {
+		return false;
+	}
 }
 
 

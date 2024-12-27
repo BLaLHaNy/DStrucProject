@@ -329,3 +329,7 @@ void Organizer::addOutCar(Car* c)
     numOutCars++;
 }
 
+void Organizer::emergency_assign(Patient* p, int severity)
+{
+}
+

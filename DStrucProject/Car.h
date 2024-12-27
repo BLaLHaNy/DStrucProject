@@ -30,6 +30,9 @@ public:
 	Patient* getAssignedPatient();
 	bool getfailed() const;
 	void setfailed();
+	void setreachtime(int time) {
+		arrivalTime = time;
+	}
 	void setfailedpatient();
 	int getHID();
 	~Car();
