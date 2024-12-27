@@ -66,44 +66,39 @@ LinkedQueue<Car*>* Hospital::getNc()
 void Hospital::assignCartoEP(int currentTime)
 {
 	Patient* p;
-	int severity;
 	Car* c;
-
-
-	while (EP.peek(p, severity)) {
-		if (p->getReqTime() <= currentTime) {
-			if (NC.dequeue(c)) {
-				EP.dequeue(p, severity);
+	int s;	//severity
+	while (EP.peek(p,s))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c)) //First: Check Normal Cars
+			{
+				EP.dequeue(p,s);
 				cNc--;
 				cEp--;
 				c->setAP(p, currentTime);
-
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				/*int reachtime = 2 * (p->getPickTime() - c->getAssignmentTime());*/
-				/*c->setreachtime(reachtime);*/
-				organizer->addOutCar(c);
-
+				organizer->addOutCar(c); 
 			}
-			else if (SC.dequeue(c)) {
-				EP.dequeue(p, severity);
+			else if (SC.dequeue(c)) //Second: Check Special Cars
+			{
+				EP.dequeue(p, s);
 				cSc--;
 				cEp--;
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				/*int reachtime = 2 * (p->getPickTime() - c->getAssignmentTime());
-				c->setreachtime(reachtime);*/
 				organizer->addOutCar(c);
 			}
-			else {
-				EP.dequeue(p, severity);
+			else  //Send To Another Hospital
+			{
+				EP.dequeue(p, s);
 				cEp--;
-				organizer->emergency_assign(p, severity);
-				//should allow sending to another hospital
+				organizer->assignEPtoNewHospital(p, s);
 			}
 		}
-		else { return; }
 	}
 }
 
@@ -136,24 +131,28 @@ void Hospital::assignCartoNP(int currentTime)
 {
 	Patient* p;
 	Car* c;
-	while (NP.peek(p)) {
-		if (p->getReqTime() <= currentTime) {
-			if (NC.dequeue(c)) {
+	while (NP.peek(p))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c))
+			{
 				NP.dequeue(p);
 				cNc--;
 				cNp--;
 				c->setAP(p, currentTime);
-				
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
 				organizer->addOutCar(c);
 			}
-			else {
-				return; 
+			else
+			{
+				return;
 			}
 		}
-		else {
-			break; 
+		else
+		{
+			break;
 		}
 	}
 }
