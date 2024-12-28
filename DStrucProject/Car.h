@@ -18,22 +18,21 @@ private:
 public:
 	Car(string t, int s, int HID);
 	string gettype() const;
-	void Pickup();//not done yet
+	void Pickup();
 	int getspeed() const;
 	void setAP(Patient* AP,int time);
-	Patient* dropoff();//not done yet
+	Patient* dropoff();
 	int cancelAssignedPatient();
 	void setstatus(string s);
 	Patient* getAP();
 	int getReachTime();
 	int getAssignmentTime();
-	/*Patient* getAssignedPatient();*/
-	bool getfailed() const;
-	void setfailed();
+	bool getfailed() const;//bonus
+	void setfailed();//bonus
 	void setreachtime(int time) {
 		arrivalTime = time;
 	}
-	void setfailedpatient();
+	void setfailedpatient();//bonus
 	int getHID();
 	~Car();
 	

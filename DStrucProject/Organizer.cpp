@@ -43,11 +43,12 @@ Organizer::Organizer(const string& fnames)
     SpeedScar = 0;
     numOutCars = 0;
     numBackCars = 0;
-    noNC = 0;
+    
 }
 
 void Organizer::Load()
 {
+    
     fstream Finput;
     
     Finput.open(fname, ios::in);
@@ -158,6 +159,7 @@ void Organizer::Load()
     }*/
     Finput.close();
 }
+
 LinkedQueue<Patient*> Organizer::getdone()
 {
 	return DonePatients;
@@ -349,7 +351,7 @@ void Organizer::cancelP(int time)
     Patient* p = nullptr;
 
     while (Cancellationlist.peek(p) && p->getcancelTime() == time) {
-        bool foundP = Hospitals[p->getclosestHospital() - 1]->cancelNP(p->getID());
+        bool foundP = Hospitals[p->getHID() - 1]->cancelNP(p->getID());
         if (!foundP) {//Patient is not picked but car is out
             Car* cancelledCar = OutCar.Cancel(p);
             if (cancelledCar) {
@@ -500,7 +502,7 @@ void Organizer::assignEPtoNewHospital(Patient* p, int severity)
     {
         newHos = 1;
     }
-    p->setclosestHospital(newHos);
+    p->setHID(newHos);
     Hospitals[newHos - 1]->setPatients(p);
 }
 

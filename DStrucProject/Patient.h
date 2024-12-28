@@ -17,7 +17,6 @@ private:
 	int HID;
 	int severity;
 	int Hdis;
-	int closestHospital;
 public:
 	Patient(string t, int RqTime,int id, int hid,int Hdis, int sev = 1);
 	int getsev() const;
@@ -35,7 +34,8 @@ public:
 	void setcancelTime(int time);
 	int getWaitTime()const;
 	int getFinishTime()const;
-	void setclosestHospital(int hospital);
-	int getclosestHospital()const;
+	void setHID(int hid) {
+		HID = hid;
+	}
 };
 

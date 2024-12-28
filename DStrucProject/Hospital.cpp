@@ -215,15 +215,6 @@ void Hospital::addfailedP(Patient* p, string& type)
 	}
 }
 
-void Hospital::print()
-{
-	Patient* p; 
-	int severity;
-	while (EP.dequeue(p, severity)) {
-		cout << severity << endl;
-	}
-	cout << "Done";
-}
 
 int Hospital::getHID()
 {

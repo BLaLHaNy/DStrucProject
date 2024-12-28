@@ -11,8 +11,10 @@
 #include "Patient.h"
 #include "Car.h"
 
-// Forward declaration
 class UI;
+
+
+
 
 using namespace std;
 
@@ -26,9 +28,8 @@ private:
     priQueue<Car*> BackCar;
     string fname;
     int NoHp;
-    int noNC;
     int numOutCars, numBackCars;
-    int fprob = 0;
+    int fprob = 0;//bonus
     int DonePcount = 0;
     int SpeedScar, SpeedNcar;
     int** distance;
@@ -52,14 +53,12 @@ public:
     int getNoHp();
     priQueue<Car*> getOutCars();
     priQueue<Car*> getBackCars();
-
     bool addOutCar(int hid, string type);
     bool addBackCar(int current_time);
     bool addFreeCar(int current_time);
     void printDone();
     void printOutCars();
     void printBackCars();
-
     void assignEPtoNewHospital(Patient* p, int severity);
 };
 
