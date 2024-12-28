@@ -46,6 +46,7 @@ Organizer::Organizer(const string& fnames)
     
 }
 
+
 void Organizer::Load()
 {
     
@@ -126,7 +127,7 @@ void Organizer::Load()
             //Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             AllPatients.enqueue(q);
-            /*Hospitals[requestHospitalID-1]->setPatients(q);*/
+           /* Hospitals[requestHospitalID-1]->setPatients(q);*/
             //cout<< requestTimes<<" " << requestPatientID << " " << requestHospitalID << " " << requestDistances << " " << requestSeverity<<endl;
         }
         else
@@ -190,45 +191,75 @@ void Organizer::Simulate(int mode)
 {
     Load();
     int step =  1 ;
-    Patient* ep;
+   
     UI interface(this);
-    int sev;
+    
+    
+  
+
+
     while (true)
     {
         /*cancelP(step);*/
+
+        Patient* p = nullptr;
+        while(AllPatients.peek(p) && p->getReqTime() == step)
+        {
+            if (p && p->getReqTime() <= step)
+            {
+                AllPatients.dequeue(p);
+                Hospitals[p->getHID() - 1]->setPatients(p);
+
+            }
+            
+
+        }
+
         for (int i = 0; i < NoHp; i++)
         {
-
-            if (Hospitals[i]->getEp()->peek(ep, sev)) {
-                if (ep && ep->getReqTime() == step) {
-                    if (Hospitals[i]->assignCartoEP(step)) {
-                        if (!addOutCar(i, "NC")) {
-                            addOutCar(i, "SC");
-                        }
-                    }
+            Patient* ep;
+            int sev;
+            while(Hospitals[i]->getEp()->peek(ep, sev) && ep->getReqTime() == step) {
+               
+                if (Hospitals[i]->assignCartoEP(step)) {
+                 /*   if (!addOutCar(i, "NC")) {
+                        addOutCar(i, "SC");
+                    }*/
+                }
 
                     else {
                         assignEPtoNewHospital(ep, sev);
                     }
-                }
+                
             }
-            if (Hospitals[i]->assignCartoSP(step)) {
-                if (addOutCar(i ,"SC")) {}
+            while (Hospitals[i]->getSp()->peek(ep) && ep->getReqTime() == step) {
+                Hospitals[i]->assignCartoSP(step);
             }
-            if (Hospitals[i]->assignCartoNP(step)) {
-                if (addOutCar(i ,"NC")) {}
+              /*  if (addOutCar(i ,"SC")) {}*/
+            
+            while (Hospitals[i]->getNp()->peek(ep) && ep->getReqTime() == step) {
+                Hospitals[i]->assignCartoNP(step);
             }
-            if (addBackCar(step)) {}
-            if (addFreeCar(step)) {}
+            /*    if (addOutCar(i ,"NC")) {}*/
             if (mode == 2) {
                 cout << "Current Timestep: " << step << endl;
                 interface.printHospitals(Hospitals[i], i + 1);
-                interface.printCars(&OutCar, &BackCar, &DonePatients);
+                interface.printCars(&OutCar,&BackCar,&DonePatients);
             }
+            
+      
             bool next;
             if (DonePcount == NoReq || DonePatients.getCount()==NoReq) {
-                // generate output file    
+                // generate output file   
+                interface.OutputFile();
+               
                 return;
+            }
+
+            if (mode == 1)
+            {
+                SilentMode();
+                break;
             }
             cin >> next;
         }
@@ -236,6 +267,7 @@ void Organizer::Simulate(int mode)
     }
     
 }
+
 
 void Organizer::Addfinished(Patient* patient)
 {
@@ -386,6 +418,90 @@ void Organizer::printBackCars()
     }
 }
 
+int Organizer::getNoReq()
+{
+    return NoReq;
+}
+
+void Organizer::generate_OutputFile(const string& output_file_name, int total_simulation_time)
+{
+
+}
+
+int Organizer::getNoCars()
+{
+    return  numOutCars + numBackCars;
+}
+
+void Organizer::SilentMode()
+{
+    Load();
+    int step = 1;
+
+    UI interface(this);
+
+
+
+
+
+    while (true)
+    {
+        /*cancelP(step);*/
+
+        Patient* p = nullptr;
+        while (AllPatients.peek(p) && p->getReqTime() == step)
+        {
+            if (p && p->getReqTime() <= step)
+            {
+                AllPatients.dequeue(p);
+                Hospitals[p->getHID() - 1]->setPatients(p);
+
+            }
+
+
+        }
+
+        for (int i = 0; i < NoHp; i++)
+        {
+            Patient* ep;
+            int sev;
+            while (Hospitals[i]->getEp()->peek(ep, sev) && ep->getReqTime() == step) {
+
+                if (Hospitals[i]->assignCartoEP(step)) {
+                    /*   if (!addOutCar(i, "NC")) {
+                           addOutCar(i, "SC");
+                       }*/
+                }
+
+                else {
+                    assignEPtoNewHospital(ep, sev);
+                }
+
+            }
+            while (Hospitals[i]->getSp()->peek(ep) && ep->getReqTime() == step) {
+                Hospitals[i]->assignCartoSP(step);
+            }
+            /*  if (addOutCar(i ,"SC")) {}*/
+
+            while (Hospitals[i]->getNp()->peek(ep) && ep->getReqTime() == step) {
+                Hospitals[i]->assignCartoNP(step);
+            }
+            /*    if (addOutCar(i ,"NC")) {}*/
+            bool next;
+            if (DonePcount == NoReq || DonePatients.getCount() == NoReq) {
+                // generate output file   
+                interface.OutputFile();
+
+                return;
+            }
+            cin >> next;
+        }
+        step++;
+    }
+}
+
+
+
 void Organizer::assignEPtoNewHospital(Patient* p, int severity)
 {
     int H = p->getHID();
@@ -401,4 +517,25 @@ void Organizer::assignEPtoNewHospital(Patient* p, int severity)
     p->setHID(newHos);
     Hospitals[newHos - 1]->setPatients(p);
 }
+int Organizer::calculateAverageWaitingTime()
+{
+    LinkedQueue<Patient*> FinishedPatients = DonePatients;
 
+    Patient* FPatient;
+    int totalWaitingTime = 0;
+    //int numPatients = 0;
+
+    while (FinishedPatients.dequeue(FPatient))
+    {
+        totalWaitingTime += FPatient->getWaitTime();
+        //    numPatients++;
+    }
+    if (FinishedPatients.getCount() > 0)
+    {
+        return totalWaitingTime / FinishedPatients.getCount();
+    }
+    else
+    {
+        return 0;
+    }
+}

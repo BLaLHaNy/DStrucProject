@@ -19,6 +19,40 @@ UI::UI(Organizer* org)
 	organizer = org;
 }
 
+void UI::OutputFile()
+{
+    ofstream file("output.txt");
+
+        LinkedQueue<Patient*> tempQueue = organizer->getallpatients();
+        Patient* temp;
+        while (!tempQueue.isEmpty()) {
+            tempQueue.dequeue(temp);
+         
+            file << temp->getFinishTime() << "\t"
+                << temp->getID() << "\t"
+                << temp->getReqTime() << "\t" << endl;
+        }
+
+
+        file << "--------------------------------------\n";
+        file<< "Patients: " << organizer->getNoReq() << "\n";
+        file << "hospitals " << organizer->getNoHp() << "\n";
+
+        int ncar = 0; 
+        int scar = 0;
+        for (int i = 0; i < organizer->getNoHp(); i++)
+        {
+            ncar += organizer->gethospitallist()[i]->getcNc();
+            scar += organizer->gethospitallist()[i]->getcSc();
+
+        }
+        file << "Cars: " << " [ " << "NCars " << ncar << " Scars " << scar << " ]" << endl;
+        file << "Average Waiting Time: " << organizer->calculateAverageWaitingTime() << " timesteps\n";
+
+
+    
+}
+
 void UI::printHospitals(Hospital* hospital, int ID)
 {
     for (int i =0; i < 10; i++) {
@@ -81,7 +115,10 @@ void UI::printCars(PriQueueCancel* outcars, priQueue<Car*>* backcars, LinkedQueu
     cout << finishedlist->getCount() << " Finished Patients: ";
     organizer->printDone();
     cout << endl;
+
 }
+
+
 
 //void UI::ProgramInterface(Hospital* h,int timestep,int NoHp, int cOc, int cBc)
 //{

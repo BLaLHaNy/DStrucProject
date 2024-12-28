@@ -23,8 +23,9 @@ private:
 
 public:
     UI(Organizer* org); 
-    void printHospitals(Hospital* H, int id);
-    void printCars(PriQueueCancel* out, priQueue<Car*>* back, LinkedQueue<Patient*>* finished);
+    void printHospitals(Hospital *H, int id);
+    void printCars(PriQueueCancel *out, priQueue<Car*>* back, LinkedQueue<Patient*>* finished);
+    void OutputFile();
 };
 
 

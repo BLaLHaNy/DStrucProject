@@ -59,6 +59,11 @@ public:
     void printDone();
     void printOutCars();
     void printBackCars();
+    int getNoReq();
+    int getNoCars();
     void assignEPtoNewHospital(Patient* p, int severity);
+    void generate_OutputFile(const string& output_file_name, int total_simulation_time);
+    int calculateAverageWaitingTime();
+    void SilentMode();
 };
 

@@ -81,6 +81,7 @@ bool Hospital::assignCartoEP(int currentTime)
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
 				organizer->addOutCar(c->getHID(), c->gettype());
+				return true;
 			}
 			else if (SC.dequeue(c)) //Second: Check Special Cars
 			{
@@ -116,7 +117,7 @@ bool Hospital::assignCartoSP(int currentTime) {
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c->getHID(),c->gettype()); // This line requires Organizer's full definition
+				organizer->addOutCar(c->getHID()-1,c->gettype()); // This line requires Organizer's full definition
 				return true;
 			}
 			else {
@@ -146,7 +147,7 @@ bool Hospital::assignCartoNP(int currentTime)
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c->getHID(),c->gettype());
+				organizer->addOutCar(c->getHID()-1,c->gettype());
 				return true;
 			}
 			else
