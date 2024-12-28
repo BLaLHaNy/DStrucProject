@@ -9,8 +9,7 @@ class PriQueueCancel : public priQueue <Car*>
 {
 
 public:
-	Car* Cancel();
-
+	void Cancel(Car* targetCar);
 
 
 };

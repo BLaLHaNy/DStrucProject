@@ -7,7 +7,8 @@ class QueueCancel: public LinkedQueue<Patient*>
 {
 
 public:
-	void Cancel();
+
+	void Cancel( const int targetItem);
 
 };
 

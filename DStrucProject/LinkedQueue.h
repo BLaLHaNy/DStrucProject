@@ -40,7 +40,8 @@ Single Node Case:
 
 #ifndef LINKED_QUEUE_
 #define LINKED_QUEUE_
-
+#include <iostream>;
+using namespace std;
 template < typename T>
 class Node
 {
@@ -106,11 +107,11 @@ Node<T>* Node<T>::getNext() const
 template <typename T>
 class LinkedQueue
 {
-private:
+protected:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
-	int count;
+	int count=0;
 public:
 	LinkedQueue();
 	bool isEmpty() const;
@@ -244,6 +245,7 @@ LinkedQueue<T>::~LinkedQueue()
 	//Free all nodes in the queue
 	T temp;
 	while (dequeue(temp));
+	
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -268,13 +270,13 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 }
 
 template <typename T>
-void PrintQueue(LinkedQueue<T> Q) //Pass by value
+void LinkedQueue<T>::PrintQueue() //Pass by value
 {
 	//For this function to work properly, the LikedQueue class MUST
 	//have  a copy constructor (pass by value)
 	T K;
 	cout << "\nQueue contents: ";
-	while (Q.dequeue(K))
+	while (dequeue(K))
 		cout << K << " ";
 	cout << endl;
 }

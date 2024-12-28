@@ -22,5 +22,64 @@ int Patient::getReqTime()
 
 int Patient::getHID()
 {
-	return this->HID;
+	return HID;
+}
+
+int Patient::getID()
+{
+	return ID;
+}
+
+void Patient::setPickUpTime(int time)
+{
+	Pickuptime = time;
+	waitingtime = Pickuptime - ReqTime; 
+}
+
+int Patient::getPickTime() const
+{
+	return Pickuptime;
+}
+
+void Patient::setFinishTime(int time)
+{
+	fininshtime = time;
+}
+
+int Patient::getDistance() const
+{
+	return distance;
+}
+
+void Patient::setdis()
+{
+}
+
+int Patient::getcancelTime() const
+{
+	return cancellationtime;
+}
+
+void Patient::setcancelTime(int time)
+{
+}
+
+int Patient::getWaitTime() const
+{
+	return 0;
+}
+
+int Patient::getFinishTime() const
+{
+	return 0;
+}
+
+void Patient::setclosestHospital(int hospital)
+{
+	closestHospital = hospital;
+}
+
+int Patient::getclosestHospital() const
+{
+	return closestHospital;
 }

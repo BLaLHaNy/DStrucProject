@@ -1,20 +1,25 @@
 #include "Hospital.h"
 #include <iostream>
+#include "Organizer.h"
 using namespace std;
-Hospital::Hospital() {
-	this->HID++;
+
+Hospital::Hospital(Organizer* o):distance(0),organizer(o) {
+	HID = nextID++;
 }
 
 void Hospital::setPatients(Patient* p)
 {
 	if (p->gettype() == "NP") {
 		NP.enqueue(p);
+		cNp++;
 	}
 	else if (p->gettype() == "SP") {
 		SP.enqueue(p);
+		cSp++;
 	}
 	else if (p->gettype() == "EP") {
 		EP.enqueue(p, p->getsev());
+		cEp++;
 	}
 }
 
@@ -22,39 +27,174 @@ void Hospital::setCars(Car* c)
 {
 	if (c->gettype() == "NC") {
 		NC.enqueue(c);
+		cNc++;
 	}
 	else if (c->gettype() == "SC") {
 		SC.enqueue(c);
+		cSc++;
 	}
 
 }
 
-void Hospital::assigncar(Patient* P, Car* C)
+
+
+QueueCancel* Hospital::getNp()
 {
-	C->setAP(P);
+	return &NP;
 }
 
-QueueCancel Hospital::getNp()
+LinkedQueue<Patient*>* Hospital::getSp()
 {
-	return NP;
+	return &SP;
 }
 
-LinkedQueue<Patient*> Hospital::getSp()
+priQueue<Patient*>* Hospital::getEp()
 {
-	return SP;
+	return &EP;
 }
 
-priQueue<Patient*> Hospital::getEp()
+LinkedQueue<Car*>* Hospital::getSc()
 {
-	return EP;
+	return &SC;
 }
 
-LinkedQueue<Car*> Hospital::getSc()
+LinkedQueue<Car*>* Hospital::getNc()
 {
-	return this->SC;
+	return &NC;
 }
 
-LinkedQueue<Car*> Hospital::getNc()
+void Hospital::assignCartoEP(int currentTime)
 {
-	return this->NC;
+	Patient* p;
+	Car* c;
+	int s;	//severity
+	while (EP.peek(p,s))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c)) //First: Check Normal Cars
+			{
+				EP.dequeue(p,s);
+				cNc--;
+				cEp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c); 
+			}
+			else if (SC.dequeue(c)) //Second: Check Special Cars
+			{
+				EP.dequeue(p, s);
+				cSc--;
+				cEp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else  //Send To Another Hospital
+			{
+				EP.dequeue(p, s);
+				cEp--;
+				organizer->assignEPtoNewHospital(p, s);
+			}
+		}
+	}
 }
+
+void Hospital::assignCartoSP(int currentTime) {
+	Patient* p;
+	Car* c;
+	while (SP.peek(p)) {
+		if (p->getReqTime() <= currentTime) {
+			if (SC.dequeue(c)) {
+				SP.dequeue(p);
+				cSc--;
+				cSp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c); // This line requires Organizer's full definition
+			}
+			else {
+				return;
+			}
+		}
+		else {
+			break;
+		}
+	}
+}
+
+
+void Hospital::assignCartoNP(int currentTime)
+{
+	Patient* p;
+	Car* c;
+	while (NP.peek(p))
+	{
+		if (p->getReqTime() <= currentTime)
+		{
+			if (NC.dequeue(c))
+			{
+				NP.dequeue(p);
+				cNc--;
+				cNp--;
+				c->setAP(p, currentTime);
+				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
+				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
+				organizer->addOutCar(c);
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+void Hospital::addfailedP(Patient* p, string& type)
+{
+}
+
+void Hospital::print()
+{
+}
+
+int Hospital::getHID()
+{
+	return HID;
+}
+int Hospital::getcEp()
+{
+	
+	return cEp;
+}
+int Hospital::getcNp()
+{
+
+	return cNp;
+}
+int Hospital::getcSp()
+{
+
+	return cSp;
+}
+int Hospital::getcSc()
+{
+
+	return cSc;
+}
+int Hospital::getcNc()
+{
+
+	return cNc;
+}
+
+
+
+ int Hospital:: nextID = 1; // Static variable to hold the next ID

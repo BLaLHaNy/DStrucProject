@@ -15,6 +15,9 @@ using namespace std;
 
 int main()
 {
-	Organizer x("Input.txt");
-	x.Load();
+	/*UI x;
+	x.ProgramInterface();*/
+	/*Organizer x("Input.txt");
+	
+	x.Simulate();*/
 }

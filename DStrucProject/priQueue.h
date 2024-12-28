@@ -46,7 +46,10 @@ public:
 template <typename T>
 class priQueue
 {
+protected:
     priNode<T>* head;
+    /*int count = 0;*/
+
 public:
     priQueue() : head(nullptr) {}
 
@@ -73,6 +76,7 @@ public:
         }
         newNode->setNext(current->getNext());
         current->setNext(newNode);
+       /* count++;*/
     }
 
     bool dequeue(T& topEntry, int& pri) {
@@ -90,7 +94,7 @@ public:
         if (isEmpty())
             return false;
 
-        topEntry = head->getItem();
+        topEntry = head->getItem(pri);
         pri = head->getPri();
         return true;
     }
@@ -98,5 +102,10 @@ public:
     bool isEmpty() const {
         return head == nullptr;
     }
+
+     /*int getcount()
+    {
+        return count;
+    }*/
 };
 
