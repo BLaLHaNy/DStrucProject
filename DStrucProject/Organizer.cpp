@@ -63,7 +63,10 @@ void Organizer::Load()
         return;
     }
    
-    Hospitals = new Hospital[NoHp];
+    Hospitals = new Hospital*[NoHp];
+    for (int i = 0; i < NoHp; i++) {
+        Hospitals[i] = new Hospital(this);
+    }
     Finput >> SpeedScar;
     Finput >> SpeedNcar;
 
@@ -96,13 +99,13 @@ void Organizer::Load()
         Finput >> sc >> nc;
         for (int j = 0; j < sc; j++)
         {
-            Car* Sc = new Car("SC",SpeedScar,Hospitals[i].getHID());
-            Hospitals[i].setCars(Sc);
+            Car* Sc = new Car("SC",SpeedScar,Hospitals[i]->getHID());
+            Hospitals[i]->setCars(Sc);
         }
         for (int k = 0; k < nc; k++)
         {
-            Car* Nc = new Car("NC",SpeedNcar, Hospitals[i].getHID());
-            Hospitals[i].setCars(Nc);
+            Car* Nc = new Car("NC",SpeedNcar, Hospitals[i]->getHID());
+            Hospitals[i]->setCars(Nc);
         }
     }
 
@@ -122,7 +125,7 @@ void Organizer::Load()
             //Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             AllPatients.enqueue(q);
-            Hospitals[requestHospitalID-1].setPatients(q);
+            Hospitals[requestHospitalID-1]->setPatients(q);
             //cout<< requestTimes<<" " << requestPatientID << " " << requestHospitalID << " " << requestDistances << " " << requestSeverity<<endl;
         }
         else
@@ -131,7 +134,7 @@ void Organizer::Load()
             //Patient P
             Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
             AllPatients.enqueue(q);
-            Hospitals[requestHospitalID-1].setPatients(q);
+            Hospitals[requestHospitalID-1]->setPatients(q);
 
         }
     }
@@ -167,7 +170,7 @@ LinkedQueue<Patient*> Organizer::getallpatients()
 {
 	return AllPatients;
 }
-Hospital* Organizer::gethospitallist()
+Hospital** Organizer::gethospitallist()
 {
 	return Hospitals;
 }
@@ -182,8 +185,52 @@ Organizer::~Organizer() {
     Hospitals = nullptr;
 }
 
-void Organizer::Simulate()
+void Organizer::Simulate(int mode)
 {
+    Load();
+    int step =  1 ;
+    Patient* ep;
+    UI interface(this);
+    int sev;
+    while (true)
+    {
+        cancelP(step);
+        for (int i = 0; i < NoHp; i++)
+        {
+            Hospitals[i]->getEp()->peek(ep,sev);
+            if (ep && ep->getReqTime() == step) {
+                if (Hospitals[i]->assignCartoEP(step)) {
+                    if (!addOutCar(i , "NC")) {
+                        addOutCar(i , "SC");
+                    }
+                }
+
+                else {
+                    assignEPtoNewHospital(ep,sev);
+                }
+            }
+            if (Hospitals[i]->assignCartoSP(step)) {
+                if (addOutCar(i ,"SC")) {}
+            }
+            if (Hospitals[i]->assignCartoNP(step)) {
+                if (addOutCar(i ,"NC")) {}
+            }
+            if (addBackCar(step)) {}
+            if (addFreeCar(step)) {}
+            if (mode == 2) {
+                cout << "Current Timestep: " << step << endl;
+                interface.printHospitals(Hospitals[i], i + 1);
+                interface.printCars(&OutCar, &BackCar, &DonePatients);
+            }
+            bool next;
+            if (DonePcount == NoReq || DonePatients.getCount()==NoReq) {
+                // generate output file    
+                return;
+            }
+            cin >> next;
+        }
+        step++;
+    }
     //UI x(this);
     //Load();
     //
@@ -297,8 +344,38 @@ void Organizer::Addfinished(Patient* patient)
     DonePatients.enqueue(patient);
 }
 
-void Organizer::cancelP()
+void Organizer::cancelP(int time)
 {
+    Patient* p = nullptr;
+
+    while (Cancellationlist.peek(p) && p->getcancelTime() == time) {
+        bool foundP = Hospitals[p->getclosestHospital() - 1]->cancelNP(p->getID());
+        if (!foundP) {//Patient is not picked but car is out
+            Car* cancelledCar = OutCar.Cancel(p);
+            if (cancelledCar) {
+                numOutCars--;
+                Cancellationlist.dequeue(p);
+                p->setPickUpTime(-1);
+                delete p;
+
+                //AddFinishedPatient(p);
+                BackCar.enqueue(cancelledCar, cancelledCar->getReachTime());
+                numBackCars++;
+            }
+            else {
+                Cancellationlist.dequeue(p);
+                NoCancReq--;
+
+            } //When cancelTime>=pickUpTime, Patient is picked
+        }
+        else if (foundP) {//Patient is still in the hospital
+            delete p;
+            Cancellationlist.dequeue(p);
+            //AddFinishedPatient(p);
+        }
+
+
+    }
 }
     
 
@@ -323,15 +400,97 @@ priQueue<Car*> Organizer::getBackCars()
     return BackCar;
 }
 
-void Organizer::addOutCar(Car* c)
+bool Organizer::addOutCar(int hid, string type)
 {
+    Car* c = Hospitals[hid]->removecar(type);
+    if (!c || !c->getAP()) {
+        return false;
+    }
     OutCar.enqueue(c, c->getAP()->getPickTime());
     numOutCars++;
+    return true;
+    
+}
+bool Organizer::addBackCar(int current_time)
+{
+    Car* c = nullptr; Patient* patient{ nullptr };
+    int pickup_time = 0;
+    if (OutCar.peek(c, pickup_time))
+    {
+        patient = c->getAP();
+        int pp = patient->getPickTime();
+        if (current_time == pp)
+        {
+            OutCar.dequeue(c, pp);
+            c->Pickup();
+            BackCar.enqueue(c, patient->getFinishTime());
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+bool Organizer::addFreeCar(int current_time)
+{
+    Car* c = nullptr;
+    int finish_time = 0;
+    if (BackCar.peek(c, finish_time))
+    {
+        Patient* patient = c->getAP();
+        if (!patient) { return false; }
+        int finish_time = patient->getFinishTime();
+        if (current_time == finish_time)
+        {
+            BackCar.dequeue(c, finish_time);
+            patient = c->dropoff();
+            int hospitalID = c->getHID();
+            Hospitals[hospitalID ]->setCars(c);
+            string pt = patient->gettype();
+            DonePatients.enqueue(patient);
+            return true;
+        }
+    }
+    return false;
+}
+
+void Organizer::printDone()
+{
+    int sev;
+    Patient* temp;
+    LinkedQueue<Patient*> temp2 = DonePatients;
+    while (temp2.dequeue(temp)) {
+        cout << temp->getID() << ", ";
+    }
+}
+
+
+
+
+void Organizer::printOutCars()
+{
+    int sev;
+    Car* temp;
+    PriQueueCancel temp2 = OutCar;
+    while (temp2.dequeue(temp,sev)) {
+        cout << 'H' << temp->getHID() << "_P" << temp->getAP()->getID() << ", ";
+    }
+}
+
+void Organizer::printBackCars()
+{
+    int sev;
+    Car* temp;
+    priQueue<Car*> temp2 = BackCar;
+    while (temp2.dequeue(temp, sev)) {
+        cout << 'H' << temp->getHID() << "_P" << temp->getAP()->getID() << ", ";
+    }
 }
 
 void Organizer::assignEPtoNewHospital(Patient* p, int severity)
 {
-    int H = p->getclosestHospital();
+    int H = p->getHID();
     int newHos;
     if (H != noHospitals)
     {
@@ -342,6 +501,6 @@ void Organizer::assignEPtoNewHospital(Patient* p, int severity)
         newHos = 1;
     }
     p->setclosestHospital(newHos);
-    Hospitals[newHos - 1].setPatients(p);
+    Hospitals[newHos - 1]->setPatients(p);
 }
 

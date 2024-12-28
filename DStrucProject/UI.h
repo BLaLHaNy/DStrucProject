@@ -18,14 +18,14 @@ using namespace std;
 
 class UI {
 private:
-    int InterfaceMode;
+    int InterfaceMode=0;
     Organizer* organizer; // Use forward declaration
     string ifname;
     string ofname;
 
 public:
     UI(Organizer* org); // Constructor declaration
-    void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc, int cBc);
+   /* void ProgramInterface(Hospital* h, int timestep, int NoHp, int cOc, int cBc);
     bool chooseMode();
     void printStatus();
     void printFinalStatistics();
@@ -35,7 +35,9 @@ public:
     int GetNumNCars();
     int GetNumSCars();
     void writeOutputFile();
-    void OutputFile();
+    void OutputFile();*/
+    void printHospitals(Hospital* H, int id);
+    void printCars(PriQueueCancel* out, priQueue<Car*>* back, LinkedQueue<Patient*>* finished);
 };
 
 

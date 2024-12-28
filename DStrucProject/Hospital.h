@@ -47,10 +47,11 @@ public:
     priQueue<Patient*>* getEp();
     LinkedQueue<Car*>* getSc();
     LinkedQueue<Car*>* getNc();
-    void assignCartoEP(int currentTime);
-    void assignCartoSP(int currentTime);
-    void assignCartoNP(int currentTime);
+    bool assignCartoEP(int currentTime);
+    bool assignCartoSP(int currentTime);
+    bool assignCartoNP(int currentTime);
     void addfailedP(Patient* p, std::string& type);
+    Car* removecar(string cartype);
     void print();
     int getHID();
     int getcEp();
@@ -59,4 +60,9 @@ public:
     int getcSc();
     int getcNc();
     bool cancelNP(int pid);
+    void PrintEPatinets();
+    void PrintSPatinets();
+    void PrintNPatinets();
+    void PrintNCar();
+    void PrintSCar();
 };

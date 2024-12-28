@@ -15,7 +15,7 @@ string Patient::gettype() const
 	return ptType;
 }
 
-int Patient::getReqTime()
+int Patient::getReqTime () const
 {
 	return ReqTime;
 }
@@ -78,7 +78,7 @@ int Patient::getFinishTime() const
 
 void Patient::setclosestHospital(int hospital)
 {
-	closestHospital = hospital;
+	HID = hospital;
 }
 
 int Patient::getclosestHospital() const

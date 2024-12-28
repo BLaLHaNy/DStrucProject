@@ -20,4 +20,12 @@ int main()
 	/*Organizer x("Input.txt");
 	
 	x.Simulate();*/
+    Organizer org("Input.txt");
+    // choose the scenario file
+    int mode;
+    cout << "Hello, Choose mode of operation(by typing index integer):" << endl;
+    cout << "1. Silent\n2.Interactive" << endl;
+    cin >> mode;
+    org.Simulate(mode);
+
 }

@@ -27,7 +27,7 @@ public:
 	Patient* getAP();
 	int getReachTime();
 	int getAssignmentTime();
-	Patient* getAssignedPatient();
+	/*Patient* getAssignedPatient();*/
 	bool getfailed() const;
 	void setfailed();
 	void setreachtime(int time) {

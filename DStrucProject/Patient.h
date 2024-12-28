@@ -7,12 +7,12 @@ class Patient
 {
 private:
 	int ID;
-	int ReqTime;
-	int cancellationtime;
-	int fininshtime;
-	int Pickuptime;
-	int waitingtime;
-	int distance;
+	int ReqTime=0;
+	int cancellationtime=0;
+	int fininshtime=0;
+	int Pickuptime=0;
+	int waitingtime=0;
+	int distance=0;
 	string ptType;
 	int HID;
 	int severity;
@@ -23,7 +23,7 @@ public:
 	int getsev() const;
 	void AssignHospital(int hid);
 	string gettype() const;
-	int getReqTime();
+	int getReqTime() const;
 	int getHID();
 	int getID();
 	void setPickUpTime(int time);
