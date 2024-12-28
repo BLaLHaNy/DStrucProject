@@ -126,7 +126,7 @@ void Organizer::Load()
             //Patient P(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances, requestSeverity);
             AllPatients.enqueue(q);
-            Hospitals[requestHospitalID-1]->setPatients(q);
+            /*Hospitals[requestHospitalID-1]->setPatients(q);*/
             //cout<< requestTimes<<" " << requestPatientID << " " << requestHospitalID << " " << requestDistances << " " << requestSeverity<<endl;
         }
         else
@@ -135,8 +135,7 @@ void Organizer::Load()
             //Patient P
             Patient* q = new Patient(requestType, requestTimes, requestPatientID, requestHospitalID, requestDistances);
             AllPatients.enqueue(q);
-            Hospitals[requestHospitalID-1]->setPatients(q);
-
+           /* Hospitals[requestHospitalID-1]->setPatients(q);*/
         }
     }
     
@@ -196,19 +195,21 @@ void Organizer::Simulate(int mode)
     int sev;
     while (true)
     {
-        cancelP(step);
+        /*cancelP(step);*/
         for (int i = 0; i < NoHp; i++)
         {
-            Hospitals[i]->getEp()->peek(ep,sev);
-            if (ep && ep->getReqTime() == step) {
-                if (Hospitals[i]->assignCartoEP(step)) {
-                    if (!addOutCar(i , "NC")) {
-                        addOutCar(i , "SC");
-                    }
-                }
 
-                else {
-                    assignEPtoNewHospital(ep,sev);
+            if (Hospitals[i]->getEp()->peek(ep, sev)) {
+                if (ep && ep->getReqTime() == step) {
+                    if (Hospitals[i]->assignCartoEP(step)) {
+                        if (!addOutCar(i, "NC")) {
+                            addOutCar(i, "SC");
+                        }
+                    }
+
+                    else {
+                        assignEPtoNewHospital(ep, sev);
+                    }
                 }
             }
             if (Hospitals[i]->assignCartoSP(step)) {
@@ -233,112 +234,7 @@ void Organizer::Simulate(int mode)
         }
         step++;
     }
-    //UI x(this);
-    //Load();
-    //
-    //
-    //int n = 0;
-    //Patient* P;
-    //Car* C;
-    //x.ProgramInterface(Hospitals, timestep, NoHp, numOutCars, numBackCars);
-  
-    //while(DonePatients.getCount()!= NoReq)
-    //{
-    //    
-    //    //for (int i = 0; i < NoReq; i++)
-    //    //{
-    //    //    Patient* P;
-    //    //    AllPatients.peek(P);
-    //    //    int HOSID = P->getHID();
-    //    //    if (this->timestep = P->getReqTime())
-    //    //    {
-    //    //        AllPatients.dequeue(P);
-    //    //        Hospitals[HOSID].setPatients(P);
-
-    //    //    }
-    //    //    else
-    //    //        break;
-    //    //}
-    //    
-    //    
-
-    //    /*srand(time(0));
-    //    for (int i = 0; i < NoHp; i++)
-    //    {
-    //        
-    //        int lowerBound = 1;
-    //        int upperBound = 100;
-    //        int randomInRange = lowerBound + (rand() % (upperBound - lowerBound + 1));
-    //        if (10 <= randomInRange && randomInRange < 20)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Sp and enqueue to donepatients." << endl;
-    //            
-    //            Hospitals[i].getSp()->dequeue(P);
-    //            DonePatients.enqueue(P);
-
-    //            Hospitals[i].getcSp()--;
-
-    //        }
-    //        else if (20 <= randomInRange && randomInRange < 25)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Ep and enqueue to donepatients." << endl;
-    //            
-    //            
-    //            Hospitals[i].getEp()->dequeue(P, n);
-    //            DonePatients.enqueue(P);
-    //        }
-    //        else if (30 <= randomInRange && randomInRange < 40)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Np and enqueue to donepatients." << endl;
-    //            
-    //            Hospitals[i].getNp()->dequeue(P);
-    //            DonePatients.enqueue(P);
-    //        }
-    //        else if (40 <= randomInRange && randomInRange < 45)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Sc and enqueue to OutCars." << endl;
-    //            
-    //            Hospitals[i].getSc()->dequeue(C);
-    //            OutCar.enqueue(C, n);
-    //            cOc++;
-    //        }
-    //        else if (70 <= randomInRange && randomInRange < 75)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from Nc and enqueue to OutCars." << endl;
-    //            
-    //            Hospitals[i].getNc()->dequeue(C);
-    //            OutCar.enqueue(C, n);
-    //            cOc++;
-    //        }
-    //        else if (80 <= randomInRange && randomInRange < 90)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << " random number is: " << randomInRange << " so we dequeue from OutCars and enqueue to Backcars." << endl;
-    //            
-    //            OutCar.dequeue(C, n);
-    //            BackCar.enqueue(C, n);
-    //            cOc--;
-    //            cBc++;
-    //        }
-    //        else if (91 <= randomInRange && randomInRange < 95)
-    //        {
-    //            cout << "in hospital " << Hospitals[i].getHID() << "random number is: " << randomInRange << " so we dequeue from BackCars and enqueue to FreeCars."<<endl;
-    //            
-    //            BackCar.dequeue(C, n);
-    //            Hospitals[i].setCars(C);
-    //            cBc--;
-    //        }
-    //       
-    //        
-
-    //        
-    //       
-
-    //        
-
-    //    }
-    //    x.ProgramInterface(Hospitals, timestep, NoHp, cOc, cBc);
-    //    timestep++;*/
-    //}
+    
 }
 
 void Organizer::Addfinished(Patient* patient)
