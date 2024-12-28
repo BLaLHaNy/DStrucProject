@@ -65,10 +65,10 @@ int Car::getAssignmentTime()
 	return assignTime;
 }
 
-Patient* Car::getAssignedPatient()
-{
-	return AssignedPatient;
-}
+//Patient* Car::getAssignedPatient()
+//{
+//	return AssignedPatient;
+//}
 
 bool Car::getfailed() const
 {

@@ -63,7 +63,7 @@ LinkedQueue<Car*>* Hospital::getNc()
 	return &NC;
 }
 
-void Hospital::assignCartoEP(int currentTime)
+bool Hospital::assignCartoEP(int currentTime)
 {
 	Patient* p;
 	Car* c;
@@ -80,7 +80,7 @@ void Hospital::assignCartoEP(int currentTime)
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c); 
+				organizer->addOutCar(c->getHID(), c->gettype());
 			}
 			else if (SC.dequeue(c)) //Second: Check Special Cars
 			{
@@ -90,19 +90,21 @@ void Hospital::assignCartoEP(int currentTime)
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c);
+				organizer->addOutCar(c->getHID(),c->gettype());
+				return true;
 			}
 			else  //Send To Another Hospital
 			{
 				EP.dequeue(p, s);
 				cEp--;
 				organizer->assignEPtoNewHospital(p, s);
+				return false;
 			}
 		}
 	}
 }
 
-void Hospital::assignCartoSP(int currentTime) {
+bool Hospital::assignCartoSP(int currentTime) {
 	Patient* p;
 	Car* c;
 	while (SP.peek(p)) {
@@ -114,20 +116,21 @@ void Hospital::assignCartoSP(int currentTime) {
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c); // This line requires Organizer's full definition
+				organizer->addOutCar(c->getHID(),c->gettype()); // This line requires Organizer's full definition
+				return true;
 			}
 			else {
-				return;
+				return false;
 			}
 		}
 		else {
-			break;
+			return false;
 		}
 	}
 }
 
 
-void Hospital::assignCartoNP(int currentTime)
+bool Hospital::assignCartoNP(int currentTime)
 {
 	Patient* p;
 	Car* c;
@@ -143,27 +146,75 @@ void Hospital::assignCartoNP(int currentTime)
 				c->setAP(p, currentTime);
 				carBusyTime = carBusyTime + (p->getDistance() / c->getspeed());
 				WaitingTime = WaitingTime + (currentTime - p->getReqTime());
-				organizer->addOutCar(c);
+				organizer->addOutCar(c->getHID(),c->gettype());
+				return true;
 			}
 			else
 			{
-				return;
+				return false;
 			}
 		}
 		else
 		{
-			break;
+			return false;
 		}
 	}
+}
+Car* Hospital::removecar(string cartype) {
+	Car* car = nullptr;
+	if (cartype == "SC") {
+		if (SC.dequeue(car)) {
+			cSc--;
+			return car;
+		}
+		
+	}
+	else if (cartype == "NC") {
+		if (NC.dequeue(car)) {
+			cNc--;
+			return car;
+
+		}
+	}
+	return nullptr;
 }
 
 void Hospital::addfailedP(Patient* p, string& type)
 {
+	LinkedQueue<Patient*> temp;
+	Patient* tempfpa;
+
+	if (type == "SP") {
+		while (SP.dequeue(tempfpa))
+		{
+			temp.enqueue(tempfpa);
+		}
+
+		SP.enqueue(p);
+
+		while (temp.dequeue(tempfpa))
+		{
+			SP.enqueue(tempfpa);
+		}
+	}
+	else if (type == "NP") {
+		while (NP.dequeue(tempfpa))
+		{
+			temp.enqueue(tempfpa);
+		}
+
+		NP.enqueue(p);
+
+		while (temp.dequeue(tempfpa))
+		{
+			NP.enqueue(tempfpa);
+		}
+	}
+	else if (type == "EP") {
+		EP.enqueue(p, p->getsev());
+	}
 }
 
-void Hospital::print()
-{
-}
 
 int Hospital::getHID()
 {
@@ -193,6 +244,69 @@ int Hospital::getcNc()
 {
 
 	return cNc;
+}
+
+bool Hospital::cancelNP(int pid)
+{
+	bool success = NP.Cancel(pid);
+	if (success)
+	{ 
+		return true; 
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+
+
+void Hospital::PrintEPatinets()
+{
+	int sev;
+	Patient* temp;
+	priQueue<Patient*> temp2 = EP;
+	while (temp2.dequeue(temp, sev)) {
+		cout << temp->getID() << ", ";
+	}
+}
+void Hospital::PrintSPatinets()
+{
+	Patient* temp;
+	LinkedQueue<Patient*> temp2 = SP;
+	while (temp2.dequeue(temp)) {
+		cout << temp->getID() << ", ";
+	}
+}
+void Hospital::PrintNPatinets()
+{
+	int sev;
+	Patient* temp;
+	QueueCancel temp2 = NP;
+	while (temp2.dequeue(temp)) {
+		cout << temp->getID() << ", ";
+	}
+}
+
+
+void Hospital::PrintSCar()
+{
+	int sev;
+	Car* temp;
+	LinkedQueue<Car*> temp2 = SC;
+	while (temp2.dequeue(temp)) {
+		cout << 'H' << temp->getHID() << "_P" << temp->getAP()->getID() << ", ";
+	}
+}
+void Hospital::PrintNCar()
+{
+	int sev;
+	Car* temp;
+	LinkedQueue<Car*> temp2 = NC;
+	while (temp2.dequeue(temp)) {
+		cout << 'H' << temp->getHID() << "_P" << temp->getAP()->getID() << ", ";
+	}
 }
 
 
