@@ -60,4 +60,5 @@ public:
     void PrintNPatinets();
     void PrintNCar();
     void PrintSCar();
+    void handleFailure();
 };

@@ -515,8 +515,50 @@ void Organizer::assignEPtoNewHospital(Patient* p, int severity)
         newHos = 1;
     }
     p->setHID(newHos);
-    Hospitals[newHos - 1]->setPatients(p);
+    Hospitals[newHos]->setPatients(p);
 }
+
+void Organizer::assignNPtoNewHospital(Patient* p)
+{
+    int H = p->getHID();
+    int newHos;
+    if (H != noHospitals)
+    {
+        newHos = H + 1;
+    }
+    else
+    {
+        newHos = 1;
+    }
+    p->setHID(newHos);
+    Hospitals[newHos]->setPatients(p);
+}
+
+void Organizer::assignSPtoNewHospital(Patient* p)
+{
+    int H = p->getHID();
+    int newHos;
+    if (H != noHospitals)
+    {
+        newHos = H + 1;
+    }
+    else
+    {
+        newHos = 1;
+    }
+    p->setHID(newHos);
+    Hospitals[newHos]->setPatients(p);
+}
+
+void Organizer::removeCarFromSystem(Car* c)
+{
+    if (c) 
+    {
+        delete c;
+        c = nullptr;
+    }
+}
+
 int Organizer::calculateAverageWaitingTime()
 {
     LinkedQueue<Patient*> FinishedPatients = DonePatients;

@@ -313,3 +313,35 @@ void Hospital::PrintNCar()
 
 
  int Hospital:: nextID = 1; // Static variable to hold the next ID
+
+
+ void Hospital::handleFailure() 
+ {
+	 Patient* tempPatient;
+	 Car* tempCar;
+	 int severity;
+	 while (EP.dequeue(tempPatient, severity)) 
+	 {
+		 organizer->assignEPtoNewHospital(tempPatient, severity);
+	 }
+	 while (SP.dequeue(tempPatient)) 
+	 {
+		 organizer->assignSPtoNewHospital(tempPatient);
+	 }
+	 while (NP.dequeue(tempPatient)) 
+	 {
+		 organizer->assignNPtoNewHospital(tempPatient);
+	 }
+	 while (SC.dequeue(tempCar)) 
+	 {
+		 cSc--;
+		 organizer->removeCarFromSystem(tempCar);
+	 }
+	 while (NC.dequeue(tempCar)) 
+	 {
+		 cNc--;
+		 organizer->removeCarFromSystem(tempCar);
+	 }
+
+	 HID = -1; // Indicate this hospital is no longer operational
+ }

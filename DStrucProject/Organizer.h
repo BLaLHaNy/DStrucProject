@@ -65,5 +65,8 @@ public:
     void generate_OutputFile(const string& output_file_name, int total_simulation_time);
     int calculateAverageWaitingTime();
     void SilentMode();
+    void assignNPtoNewHospital(Patient* p);
+    void assignSPtoNewHospital(Patient* p);
+    void removeCarFromSystem(Car* c);
 };
 
